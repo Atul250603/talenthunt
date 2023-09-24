@@ -3,9 +3,12 @@ import project1 from '../images/project1.png';
 import project2 from '../images/project2.png';
 import event from '../images/event.png';
 import code from '../images/code.png';
+import Login from './Login';
+import { useState } from 'react';
+import Signup from './Signup';
 function Home(){
     return(
-        <div className='bg-gradient-to-r from-transparent to-purple-100'>
+        <div className="bg-gradient-to-r from-transparent to-purple-100">
             <div className='flex justify-center items-center w-full px-3 '>
                 <div className='w-3/4 text-5xl mainHeading text-center'><div className='text-purple-600 '>Find. Collaborate. Succeed.</div><div className='text-4xl'>One Stop Platform To Hunt Talented Individuals For Your Projects</div></div>
                 <div className='w-1/4'>
@@ -61,6 +64,8 @@ function Home(){
                     </div>
                 </div>
             </div>
+            {/* <Login/> */}
+            {/* <Signup/> */}
         </div>
     )
 }

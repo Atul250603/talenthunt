@@ -31,4 +31,9 @@
     width: 20px;
     height: 20px;
 }
-
+.hideoverflow{
+    overflow-y: hidden!important;
+}
+.form{
+    font-family: 'Poppins', sans-serif;
+}
