@@ -37,3 +37,13 @@
 .form{
     font-family: 'Poppins', sans-serif;
 }
+.slide{
+    transition: all 0.5s ease-in;
+    overflow: hidden;
+}
+.slideIn{
+    transform: translateX(0px);
+}
+.slideOut{
+    transform: translateX(500px);
+}

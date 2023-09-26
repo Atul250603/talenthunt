@@ -6,17 +6,17 @@ import code from '../images/code.png';
 import Login from './Login';
 import { useState } from 'react';
 import Signup from './Signup';
-function Home(){
+function Home({loginDisplay,signupDisplay,setloginDisplay,setsignupDisplay}){
     return(
         <div className="bg-gradient-to-r from-transparent to-purple-100">
             <div className='flex justify-center items-center w-full px-3 '>
-                <div className='w-3/4 text-5xl mainHeading text-center'><div className='text-purple-600 '>Find. Collaborate. Succeed.</div><div className='text-4xl'>One Stop Platform To Hunt Talented Individuals For Your Projects</div></div>
+                <div className='w-3/4 text-5xl mainHeading text-center'><div className='text-purple-600 '>Find. Collaborate. Succeed.</div><div className='text-4xl'>One Stop Platform To Find Talented Individuals</div></div>
                 <div className='w-1/4'>
                     <img src={coder_vector} alt="Coder Image" className='w-full mx-auto block'/>
                 </div>
             </div>
             <div className='py-4 px-3 w-full'>
-                <div className='text-center text-purple-600 subheading text-2xl'>Why Talenthunt?</div>
+                <div className='text-center text-purple-600 subheading text-2xl'>Why TalentX?</div>
                 <div className='grid grid-cols-2 gap-4 text-center my-6 cards w-3/4 mx-auto'>
                     <div className='card border-b-2 border-orange-600 shadow bg-white'>
                         <div className="flex items-center justify-center py-2">
@@ -64,8 +64,8 @@ function Home(){
                     </div>
                 </div>
             </div>
-            {/* <Login/> */}
-            {/* <Signup/> */}
+            {<Login loginDisplay={loginDisplay} setloginDisplay={setloginDisplay}/>}
+            {<Signup signupDisplay={signupDisplay} setsignupDisplay={setsignupDisplay}/>}
         </div>
     )
 }
