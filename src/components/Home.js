@@ -65,7 +65,7 @@ function Home({loginDisplay,signupDisplay,setloginDisplay,setsignupDisplay}){
                 </div>
             </div>
             {<Login loginDisplay={loginDisplay} setloginDisplay={setloginDisplay}/>}
-            {<Signup signupDisplay={signupDisplay} setsignupDisplay={setsignupDisplay}/>}
+            {<Signup signupDisplay={signupDisplay} setsignupDisplay={setsignupDisplay} setloginDisplay={setloginDisplay}/>}
         </div>
     )
 }
