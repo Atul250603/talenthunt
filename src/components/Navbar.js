@@ -1,5 +1,4 @@
 function Navbar({setloginDisplay,setsignupDisplay}){
-    
     return(
         <div className="flex justify-between px-3 py-3 shadow-md items-center navbar sticky top-0 z-30 bg-white">
             <div className="text-purple-600 font-extrabold text-3xl brandname">

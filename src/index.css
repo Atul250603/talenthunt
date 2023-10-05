@@ -5,7 +5,7 @@
 .brandname,.tagline{
     font-family: 'Righteous', cursive;
 }
-.buttons{
+.buttons,.heading{
     font-family:'Poppins',sans-serif;
 }
 .mainHeading{
@@ -46,4 +46,15 @@
 }
 .slideOut{
     transform: translateX(500px);
+}
+.user-image{
+    width: 100px;
+    height: 100px;
+}
+input[type="file"]{
+    display: none;
+}
+.noborder{
+    border: none!important;
+    background-color: none;
 }

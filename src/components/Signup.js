@@ -52,7 +52,13 @@ function Signup({signupDisplay,setsignupDisplay,setloginDisplay}){
         }
         return true;
     }
-    
+    function onemailChange(e){
+        localStorage.setItem('storage',JSON.stringify({...storage,otp:'',otpSent:false}));
+        setStorage((prevStorage)=>{return{...prevStorage,otp:'',otpSent:false}});
+        setotpSent(false);
+        setOtp('');
+        setEmail(e.target.value);
+    }
     async function sendOTP(){
         setShowSpinner(true);
         genOTP=Math.floor(1000 + Math.random() * 9000)
@@ -91,8 +97,8 @@ function Signup({signupDisplay,setsignupDisplay,setloginDisplay}){
         
         setShowSpinner(true);
         if(String(storage.otp)===otp){
-            localStorage.setItem('storage',JSON.stringify({...storage,verified:true}));
-            setStorage((prevStorage)=>{return{...prevStorage,verified:true}});
+            localStorage.setItem('storage',JSON.stringify({...storage,verified:true,otp:''}));
+            setStorage((prevStorage)=>{return{...prevStorage,verified:true,otp:''}});
             setVerified(true);
         }
         setShowSpinner(false);
@@ -110,8 +116,8 @@ function Signup({signupDisplay,setsignupDisplay,setloginDisplay}){
             });
             let msg=await resp.json();
             if(msg && msg.success && msg.success.length){
-                localStorage.setItem('storage',JSON.stringify({...storage,email:'',otpSent:false,verified:false,otp:''}));
-                setStorage((prevStorage)=>{return{...prevStorage,email:'',otpSent:false,verified:false,otp:''}});
+                localStorage.setItem('storage',JSON.stringify({...storage,email:'',otpSent:false,verified:false}));
+                setStorage((prevStorage)=>{return{...prevStorage,email:'',otpSent:false,verified:false}});
                 setEmail('');
                 setVerified(false);
                 setotpSent(false);
@@ -140,7 +146,7 @@ function Signup({signupDisplay,setsignupDisplay,setloginDisplay}){
             <div className="w-full px-3 ">
                 <div className="border-2 border-purple-600 rounded px-3 py-1 w-full">
                     <div className="text-purple-600">Email</div>
-                    <div className="py-1 w-full"><input type="mail" name="mail" id="mail" value={email} onChange={(e)=>{setEmail(e.target.value)}} className="outline-none w-full bg-white disabled:cursor-not-allowed" disabled={(verified)?true:false} autoComplete="off"/></div>
+                    <div className="py-1 w-full"><input type="mail" name="mail" id="mail" value={email} onChange={(e)=>{onemailChange(e)}} className="outline-none w-full bg-white disabled:cursor-not-allowed" disabled={(verified)?true:false} autoComplete="off"/></div>
                 </div>
                 {(!verified)?
                     <div>
