@@ -18,6 +18,7 @@ function PopupEducationForm({setidentifier,title,education,seteducation}){
         setidentifier(0);
     }
     function addNewEducationQualification(){
+        try{
         let instnamelen=(instname.trim()).length;
         let coursenamelen=(coursename.trim()).length;
         let startyearlen=(String(startyear).trim()).length;
@@ -66,6 +67,10 @@ function PopupEducationForm({setidentifier,title,education,seteducation}){
            seteducation(cpyeducation);
         }
         closePopUp();
+        }
+        catch(error){
+            toast.error("Error In Adding Educational Qualification");
+        }
     }
     return(
         <div className="w-screen h-screen fixed flex items-center justify-center bg-black bg-opacity-75 z-30 heading">

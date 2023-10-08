@@ -13,8 +13,6 @@ function User(){
         lastname:'',
         email:'',
         emailVerified:true,
-        phone:'',
-        phoneVerified:false,
         currorg:'',
         education:[],
         workExp:[],

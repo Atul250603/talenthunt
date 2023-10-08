@@ -23,6 +23,7 @@ function Login({loginDisplay,setloginDisplay}){
         return true;
     }
     async function loginHandler(){
+        try{
         if(validData()){
             setshowSpinner(true);
             let resp=await fetch('http://localhost:5000/auth/login',{
@@ -54,6 +55,11 @@ function Login({loginDisplay,setloginDisplay}){
             }
             setshowSpinner(false);
         }
+    }
+    catch(error){
+        setshowSpinner(false);
+        toast.error("Error In Logging In");
+    }
     } 
     return(
         <div className={`fixed top-0 right-0 h-screen px-2 shadow-2xl flex items-center w-1/4 bg-white z-40 slide ${(loginDisplay)?"slideIn":"slideOut"}`}>

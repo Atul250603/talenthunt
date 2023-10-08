@@ -13,28 +13,7 @@ function Signup({signupDisplay,setsignupDisplay,setloginDisplay}){
     const [otpSent,setotpSent]=useState(false);
     const [showSpinner,setShowSpinner]=useState(false);
     const [type,setType]=useState("");
-    let genOTP=localStorage.getItem('otp');
-    const[storage,setStorage]=useState({});
-    useEffect(()=>{
-        function intialSetup(){
-            let localstorage=localStorage.getItem('storage');
-            if(localstorage && localstorage!==undefined && localstorage!==null){
-                localstorage=JSON.parse(localstorage);
-                if(localstorage.email!==undefined && localstorage.email){
-                    setEmail(storage.email);
-                }
-                if(localstorage.otpSent!==undefined && localstorage.otpSent){
-                    setotpSent(true);
-                }
-                if(localstorage.verified!==undefined && localstorage.verified){
-                    setVerified(true);
-                }
-                setStorage(localstorage);
-            }
-        }
-        intialSetup();
-    },[])
-    
+    let genOTP;
     function validData(){
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         var passformat=/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
@@ -53,13 +32,12 @@ function Signup({signupDisplay,setsignupDisplay,setloginDisplay}){
         return true;
     }
     function onemailChange(e){
-        localStorage.setItem('storage',JSON.stringify({...storage,otp:'',otpSent:false}));
-        setStorage((prevStorage)=>{return{...prevStorage,otp:'',otpSent:false}});
         setotpSent(false);
         setOtp('');
         setEmail(e.target.value);
     }
     async function sendOTP(){
+        try{
         setShowSpinner(true);
         genOTP=Math.floor(1000 + Math.random() * 9000)
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -76,8 +54,6 @@ function Signup({signupDisplay,setsignupDisplay,setloginDisplay}){
            let msg=await resp.json();
            if(msg && msg.success && msg.success.length){
             toast.success('OTP Sent Successfully');
-            localStorage.setItem('storage',JSON.stringify({...storage,email:email,otp:genOTP,otpSent:true}));
-            setStorage((prevStorage)=>{return{...prevStorage,email:email,otp:genOTP,otpSent:true}});
             setotpSent(true);
            }
            else if(msg && msg.error){
@@ -92,18 +68,27 @@ function Signup({signupDisplay,setsignupDisplay,setloginDisplay}){
         }
         setShowSpinner(false);
         return;
+        }
+        catch(error){
+        setShowSpinner(false);
+        toast.error("Error in Sending OTP")
+        }
     }
     async function verifyOTP(){
-        
+        try{
         setShowSpinner(true);
-        if(String(storage.otp)===otp){
-            localStorage.setItem('storage',JSON.stringify({...storage,verified:true,otp:''}));
-            setStorage((prevStorage)=>{return{...prevStorage,verified:true,otp:''}});
+        if(String(genOTP)===otp){
             setVerified(true);
         }
         setShowSpinner(false);
+        }
+        catch(error){
+            setShowSpinner(false);
+            toast.error("Error In Verifying OTP");
+        }
     }
     async function signupHandler(){
+        try{
         if(validData()){
             setShowSpinner(true);
             let resp=await fetch("http://localhost:5000/auth/signup",{
@@ -116,8 +101,6 @@ function Signup({signupDisplay,setsignupDisplay,setloginDisplay}){
             });
             let msg=await resp.json();
             if(msg && msg.success && msg.success.length){
-                localStorage.setItem('storage',JSON.stringify({...storage,email:'',otpSent:false,verified:false}));
-                setStorage((prevStorage)=>{return{...prevStorage,email:'',otpSent:false,verified:false}});
                 setEmail('');
                 setVerified(false);
                 setotpSent(false);
@@ -134,6 +117,11 @@ function Signup({signupDisplay,setsignupDisplay,setloginDisplay}){
                 toast.error("Error In Signing Up")
             }
             setShowSpinner(false);
+        }
+        }
+        catch(error){
+            setShowSpinner(false);
+            toast.error("Error In Signing Up");
         }
     }
     return(

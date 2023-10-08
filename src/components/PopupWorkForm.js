@@ -18,6 +18,7 @@ function PopupWorkForm({setidentifier,title,work,setwork}){
         setidentifier(0);
     }
     function addNewWorkExp(){
+        try{
         let compnamelen=(compname.trim()).length;
         let rolenamelen=(rolename.trim()).length;
         let startyearlen=(String(startyear).trim()).length;
@@ -70,6 +71,10 @@ function PopupWorkForm({setidentifier,title,work,setwork}){
            setwork(cpywork);
         }
         closePopUp();
+        }
+        catch(error){
+            toast.error("Error In Adding Work Experience");
+        }
     }
     return(
         <div className="w-screen h-screen fixed flex items-center justify-center bg-black bg-opacity-75 z-30 heading">
