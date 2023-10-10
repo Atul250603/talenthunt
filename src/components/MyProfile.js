@@ -1,6 +1,6 @@
 import userAvatar from '../images/userAvatar.png'
 import editIcon from '../images/editIcon.svg'
-function MyProfile({seteditProfile}){
+function MyProfile({seteditProfile,data}){
     return(
         <div className="px-3 py-3 heading">
             <div className="text-2xl text-purple-600 font-bold py-2 border-b-2 border-b-purple-600">
@@ -14,18 +14,24 @@ function MyProfile({seteditProfile}){
                             <img src={editIcon} alt="edit-icon" onClick={()=>{seteditProfile(true)}}/>
                         </div>
                     </div>
-                    <div className="flex items-center gap-3 my-3">
+                    <div className="flex items-center gap-3 my-3 font-medium">
                         <div className="user-image">
-                            <img src={userAvatar} alt="user-profile-image" className="w-full h-full"/>
+                            <img src={(data.profileImg)?data.profileImg:userAvatar} alt="user-profile-image" className="w-full h-full border-2 border-purple-600 rounded-full"/>
                         </div>
                         <div>
-                            <div>User Name</div>
-                            <div className="flex gap-3">
-                                <div>Email Address</div>
-                                <div>Phone Number</div>
-                            </div>
+                            <div className='capitalize'>{data.fname +" "+data.lname}</div>
                             <div>
-                                Links
+                                <div>{data.email}</div>
+                            </div>
+                            <div className='flex items-center gap-2'>
+                                {
+                                    (data.socials.length>0)?data.socials.map((element,idx)=><a href={element.link} className='capitalize text-purple-600 underline underline-offset-1' key={idx}>{element.linktitle}</a>):<></>
+                                }
+                            </div>
+                            <div className='mt-2'>
+                                {
+                                    (data.resume)?<a href={data.resume} className='bg-purple-600 px-2 py-1 text-white rounded-full' target='_blank'>Resume</a>:<></>
+                                }
                             </div>
                         </div>
                     </div>
@@ -38,37 +44,18 @@ function MyProfile({seteditProfile}){
                                 <img src={editIcon} alt="edit-icon" onClick={()=>{seteditProfile(true)}}/>
                             </div>
                         </div>
-                        <div>
-                            <div className='pb-3'>
-                                <div>
-                                    <div className="mt-3">Institute Name</div>
-                                    <div className="flex gap-3">
-                                        <div>Course Name</div>
-                                        <div>Year</div>
-                                        <div>Grade</div>
+                        <div className='font-medium'>
+                            {(data.education.length)?data.education.map((element,idx)=><div className={`pb-3 ${(data.education.length>1 && idx!=(data.education.length-1))?' borderbtm':""}`} key={idx}>
+                                    <div>
+                                        <div className="mt-3">{element.instname}</div>
+                                        <div className="flex gap-3">
+                                            <div>{element.coursename}</div>
+                                            <div>{element.startyear + ' - ' +element.endyear}</div>
+                                        </div>
+                                        <div>{element.grade}</div>
                                     </div>
-                                </div>
-                            </div>
-                            <div className='pb-3'>
-                                <div className="mt-3">
-                                    <div>Institute Name</div>
-                                    <div className="flex gap-3">
-                                        <div>Course Name</div>
-                                        <div>Year</div>
-                                        <div>Grade</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='pb-3'>
-                                <div className="mt-3">
-                                    <div>Institute Name</div>
-                                    <div className="flex gap-3">
-                                        <div>Course Name</div>
-                                        <div>Year</div>
-                                        <div>Grade</div>
-                                    </div>
-                                </div>
-                            </div>
+                                </div>):<></>
+                            }
                         </div>
                     </div>
                 </div>
@@ -81,31 +68,21 @@ function MyProfile({seteditProfile}){
                                 <img src={editIcon} alt="edit-icon" onClick={()=>{seteditProfile(true)}}/>
                             </div>
                         </div>
-                        <div>
-                            <div className='pb-3'>
+                        <div className='font-medium'>
+                            {
+                                (data.workexp.length)?data.workexp.map((element,idx)=><div className={`pb-3 ${(data.workexp.length>1 && idx!=(data.workexp.length-1))?' borderbtm':""}`} key={idx}>
                                 <div>
-                                    <div className="mt-3">Company Name</div>
+                                    <div className="mt-3">{element.companyname}</div>
                                     <div className="flex gap-3">
-                                        <div>Role Name</div>
-                                        <div>Year</div>
+                                        <div>{element.rolename}</div>
+                                        <div>{element.startyear + ' - ' +element.endyear}</div>
                                     </div>
                                     <div>
-                                        Job Description
+                                        {element.jobdesc}
                                     </div>
                                 </div>
-                            </div>
-                            <div>
-                                <div className='pb-3'>
-                                    <div className="mt-3">Company Name</div>
-                                    <div className="flex gap-3">
-                                        <div>Role Name</div>
-                                        <div>Year</div>
-                                    </div>
-                                    <div>
-                                        Job Description
-                                    </div>
-                                </div>
-                            </div>
+                            </div>):<></>
+                            }
                         </div>
                     </div>
                 </div>
@@ -118,11 +95,8 @@ function MyProfile({seteditProfile}){
                                 <img src={editIcon} alt="edit-icon" onClick={()=>{seteditProfile(true)}}/>
                             </div>
                         </div>
-                        <div className='mt-3 flex gap-2'>
-                            <div className='rounded-full bg-slate-600 min-w-[4%] w-auto text-center px-2 py-1 text-white'>C++</div>
-                            <div className='rounded-full bg-slate-600 min-w-[4%] w-auto text-center px-2 py-1 text-white'>C</div>
-                            <div className='rounded-full bg-slate-600 min-w-[4%] w-auto text-center px-2 py-1 text-white'>ReactJS</div>
-                            <div className='rounded-full bg-slate-600 min-w-[4%] w-auto text-center px-2 py-1 text-white'>NodeJS</div>
+                        <div className='mt-3 flex gap-2 font-medium'>
+                            {(data.skills.length)?data.skills.map((element,idx)=><div className='rounded-full bg-slate-600 min-w-[4%] w-auto text-center px-2 py-1 text-white' key={idx}>{element}</div>):<></>}
                         </div>   
                     </div>
                 </div>

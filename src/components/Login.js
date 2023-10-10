@@ -37,11 +37,8 @@ function Login({loginDisplay,setloginDisplay}){
             let msg=await resp.json();
             if(msg && msg.success){
                 let storage=localStorage.getItem('storage');
-                if(storage){
-                    storage=JSON.parse(storage);
-                    storage={...storage,auth:msg.token};
-                    localStorage.setItem('storage',JSON.stringify(storage));
-                }
+                storage={auth:msg.token,user:msg.user};
+                localStorage.setItem('storage',JSON.stringify(storage));
                 toast.success(msg.success);
                 setEmail('');
                 setPass('');

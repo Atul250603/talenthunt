@@ -58,3 +58,6 @@ input[type="file"]{
     border: none!important;
     background-color: none;
 }
+.borderbtm{
+    border-bottom: 1px solid gray;
+}

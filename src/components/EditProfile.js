@@ -1,7 +1,6 @@
 import userAvatar from '../images/userAvatar.png'
-// import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import addIcon from '../images/addIcon.svg'
 import OtpInput from 'react-otp-input';
 import { toast } from 'react-toastify'
@@ -18,12 +17,56 @@ function EditProfile({seteditProfile,setidentifier,data,setData,education,work,s
     const [skillval,setskillval]=useState('');
     const [profileimg,setprofileimg]=useState(null);
     const [profileimgURL,setprofileimgURL]=useState(null);
+    const [profileimgDownloadLink,setprofileimgDownloadLink]=useState('');
+    const [resumeDownloadLink,setresumeDownloadLink]=useState('');
     const [resume,setresume]=useState(null);
     const[emailotpsent,setemailotpsent]=useState(false);
     const [emailshowSpinner,setemailshowSpinner]=useState(false);
     const [emailotp,setemailotp]=useState('');
     const[uploadshowSpinner,setuploadshowspinner]=useState(false);
-    let genOTP;
+    const [genOTP,setgenOTP]=useState('');
+    useEffect(()=>{
+        function initializeStates(){
+            try{
+                if(data){
+                    if(data.fname){
+                        setfname(data.fname);
+                    }
+                    if(data.lname){
+                        setlname(data.lname);
+                    }
+                    if(data.email){
+                        setemail(data.email);
+                    }
+                    if(data.currorg){
+                        setcurrorg(data.currorg);
+                    }
+                    if(data.skills && data.skills.length>0){
+                        setskills(data.skills);
+                    }
+                    if(data.profileImg){
+                        setprofileimgURL(data.profileImg);
+                        setprofileimgDownloadLink(data.profileImg);
+                    }
+                    if(data.resume){
+                        setresume(data.resume);
+                        setresumeDownloadLink(data.resume);
+                    }
+                    if(!((data.email).trim()).length){
+                        let storage=localStorage.getItem('storage');
+                        storage=JSON.parse(storage);
+                        if(storage && storage.user){
+                            setemail(storage.user.email);
+                        }
+                    }
+                }
+            }
+            catch(error){
+                console.log(error);
+            }
+        }
+        initializeStates();
+    },[])
     function enterSkill(e){
         try{
         if(e.key==="Enter"){
@@ -57,7 +100,8 @@ function EditProfile({seteditProfile,setidentifier,data,setData,education,work,s
     async function sendEmailOTP(){
         try{
         setemailshowSpinner(true);
-        genOTP=Math.floor(1000 + Math.random() * 9000)
+        let genOTP=Math.floor(1000 + Math.random() * 9000);
+        setgenOTP(genOTP);
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if((email.trim()).match(mailformat))
         {
@@ -95,9 +139,11 @@ function EditProfile({seteditProfile,setidentifier,data,setData,education,work,s
     function verifyEmailOTP(){
         try{
         setemailshowSpinner(true);
-        if(String(genOTP)===String(emailotp)){
+        if(String(genOTP)===emailotp){
             setemailverified(true);
             setemailotp('');
+            setgenOTP('');
+            setemailotpsent(false);
         }
         setemailshowSpinner(false);
         }
@@ -115,16 +161,6 @@ function EditProfile({seteditProfile,setidentifier,data,setData,education,work,s
         let skillslen=skills.length;
         let socialslen=socials.length;
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        let imgext=profileimg.name.split('.').slice(-1)[0];
-        let resumext=resume.name.split('.').slice(-1)[0];
-        if(imgext!=='png' || imgext!=='jpeg' || imgext!=='jpg'){
-            toast.error('Profile Image Must Be Of PNG Or JPEG Type');
-            return false;
-        }
-        if(resumext!=='pdf'){
-            toast.error('Resume Must Be A PDF File');
-            return false;
-        }
         if(!fnamelen){
             toast.error('First Name Is Required');
             return false;
@@ -161,6 +197,7 @@ function EditProfile({seteditProfile,setidentifier,data,setData,education,work,s
             toast.error("Socail Links Are Required");
             return false;
         }
+        if((profileimgDownloadLink.trim()).length>0 && (resumeDownloadLink.trim()).length>0)return true;
         if(profileimg===null){
             toast.error("Profile Image Is Required");
             return false;
@@ -169,42 +206,51 @@ function EditProfile({seteditProfile,setidentifier,data,setData,education,work,s
             toast.error("Resume Is Required");
             return false;
         }
+        let imgext=(profileimg.name.split('.').slice(-1)[0]).toLowerCase();
+        let resumext=(resume.name.split('.').slice(-1)[0]).toLowerCase();
+        if(imgext!=='png' && imgext!=='jpeg' && imgext!=='jpg'){
+            toast.error('Profile Image Must Be Of PNG Or JPEG Type');
+            return false;
+        }
+        if(resumext!=='pdf'){
+            toast.error('Resume Must Be A PDF File');
+            return false;
+        }
         return true;
     }
     async function updateProfile(){
         try{
            if(validData()){
                 setuploadshowspinner(true);
-                let profileimgDownloadLink='';
-                let resumeDownloadLink='';
+                let profileimgDownloadLinkLocal=profileimgDownloadLink;
+                let resumeDownloadLinkLocal=resumeDownloadLink;
                 let uniqueid=uid(32);
-                let imgext=profileimg.name.split('.').slice(-1)[0];
-                let resumext=resume.name.split('.').slice(-1)[0];
-                const profileImgRef=ref(storage,`profile_images/${uniqueid+"profileimg."+imgext}`);
-                const resumeRef=ref(storage,`resume/${uid+"resume."+resumext}`);
-                uploadBytes(profileImgRef, profileimg).then((snapshot) => {
-                    getDownloadURL(snapshot.ref).then((downloadURL)=>{
-                        profileimgDownloadLink=downloadURL;
-                    },(error)=>{
-                        console.log("Error In Getting the link of the uploaded image");
-                        return;
-                    })
-                },(error)=>{
-                    toast.error('Error In Uploading The Profile Image');
-                    return;
-                });
-                  
-                uploadBytes(resumeRef, resume).then((snapshot) => {
-                    getDownloadURL(snapshot.ref).then((downloadURL)=>{
-                        resumeDownloadLink=downloadURL;
-                    },(error)=>{
-                        console.log("Error In Getting the link of the uploaded resume");
-                        return;
-                    })
-                },(error)=>{
-                    toast.error('Error In Uploading The Resume');
-                    return;
-                });
+                if(!(profileimgDownloadLinkLocal.trim()).length){
+                    let imgext=profileimg.name.split('.').slice(-1)[0];
+                    const profileImgRef=ref(storage,`profile_images/${uniqueid+"profileimg."+imgext}`);
+                    const profileimgresp=await uploadBytes(profileImgRef,profileimg);
+                    if(!profileimgresp){
+                        throw "Error In Uploading Profile Image";
+                    }
+                    profileimgDownloadLinkLocal=await getDownloadURL(profileimgresp.ref);
+                    if(!(profileimgDownloadLinkLocal.trim()).length){
+                        throw "Error In Generating The Profile Image Link";
+                    }
+                    setprofileimgDownloadLink(profileimgDownloadLinkLocal);
+                }   
+                if(!(resumeDownloadLinkLocal.trim()).length){
+                    let resumext=resume.name.split('.').slice(-1)[0];
+                    const resumeRef=ref(storage,`resume/${uniqueid+"resume."+resumext}`);
+                    const resumeresp=await uploadBytes(resumeRef,resume);
+                    if(!resumeresp){
+                        throw "Error In Uploading Resume";
+                    }
+                    resumeDownloadLinkLocal=await getDownloadURL(resumeresp.ref);
+                    if(!(resumeDownloadLinkLocal.trim()).length){
+                        throw "Error In Generating The Profile Image Link";
+                    }
+                    setresumeDownloadLink(resumeDownloadLinkLocal);
+                }
                 
                 let data={
                     fname,
@@ -215,17 +261,39 @@ function EditProfile({seteditProfile,setidentifier,data,setData,education,work,s
                     workexp:work,
                     skills,
                     socials,
-                    profileimg:profileimgDownloadLink,
-                    resume:resumeDownloadLink
+                    profileImg:profileimgDownloadLinkLocal,
+                    resume:resumeDownloadLinkLocal
                 }
-                console.log(data);  
-                setuploadshowspinner(false);                
+                let localstorage=localStorage.getItem('storage');
+                localstorage=JSON.parse(localstorage);
+                let resp=await fetch('http://localhost:5000/user/editprofile',{
+                    method:"POST",
+                    mode:"cors",
+                    headers:{
+                        "Content-Type":"application/json",
+                        "authToken":localstorage.auth
+                    },
+                    body:JSON.stringify(data)
+                })
+                let msg=await resp.json();
+                if(!msg)throw "Some Error Occured";
+                if(msg && msg.error){
+                    throw msg.error;            
+                }
+                if(msg && msg.success){
+                    toast.success(msg.success);
+                    localstorage={...localstorage,user:msg.user,user_info:msg.user_info};
+                    localStorage.setItem('storage',JSON.stringify(localstorage));
+                    setuploadshowspinner(false);  
+                    setData(data);
+                    seteditProfile(false);
+                    return ;
+                }
            }
-       
         }
         catch(error){
             setuploadshowspinner(false);
-            toast.error("Error In Updating Profile Information");
+            toast.error(error);
         }
     }
     return(
@@ -239,7 +307,7 @@ function EditProfile({seteditProfile,setidentifier,data,setData,education,work,s
                     <div className='user-image rounded-full'>
                         <input type='file' name="profile_image" id="edit_profile_img" accept="image/png,image/jpeg" multiple={false}  onChange={(e)=>{setprofileimg(e.target.files[0]); setprofileimgURL(URL.createObjectURL(e.target.files[0]))}}/>
                         <label htmlFor='edit_profile_img' className='w-full h-full rounded-full'>
-                            <img src={(profileimgURL)?profileimgURL:userAvatar} alt="user-profile-image" className='hover:cursor-pointer w-full h-full rounded-full'/>
+                            <img src={(profileimgURL)?profileimgURL:userAvatar} alt="user-profile-image" className='hover:cursor-pointer w-full h-full rounded-full border-2 border-purple-600'/>
                         </label>
                     </div>
                     <div className='mt-2'>Choose Profile Picture</div>
@@ -310,7 +378,7 @@ function EditProfile({seteditProfile,setidentifier,data,setData,education,work,s
                         </div>
                         <div className="py-1 w-full">
                             <div className='pb-3'>
-                                {(education && education.length)?education.map((element,idx)=><div className='bg-slate-100 rounded-xl px-2 py-1 my-1' key={idx}>
+                                {(education && education.length)?education.map((element,idx)=><div className='bg-slate-100 rounded-xl px-2 py-1 my-1 mb-2' key={idx}>
                                     <div className="mt-2">{element.instname}</div>
                                     <div className="flex gap-3">
                                         <div>{element.coursename}</div>
@@ -332,7 +400,7 @@ function EditProfile({seteditProfile,setidentifier,data,setData,education,work,s
                         </div>
                         <div className="py-1 w-full">
                             <div className='pb-3'>
-                                {(work && work.length>0)?work.map((element,idx)=><div className='bg-slate-100 rounded-xl px-2 py-1 my-1' key={idx}>
+                                {(work && work.length>0)?work.map((element,idx)=><div className='bg-slate-100 rounded-xl px-2 py-1 my-1 mb-2' key={idx}>
                                     <div className="mt-2">{element.companyname}</div>
                                     <div className="flex gap-3">
                                         <div>{element.rolename}</div>

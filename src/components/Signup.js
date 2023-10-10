@@ -13,7 +13,7 @@ function Signup({signupDisplay,setsignupDisplay,setloginDisplay}){
     const [otpSent,setotpSent]=useState(false);
     const [showSpinner,setShowSpinner]=useState(false);
     const [type,setType]=useState("");
-    let genOTP;
+    const [genOTP,setgenOTP]=useState('');
     function validData(){
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         var passformat=/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
@@ -39,7 +39,8 @@ function Signup({signupDisplay,setsignupDisplay,setloginDisplay}){
     async function sendOTP(){
         try{
         setShowSpinner(true);
-        genOTP=Math.floor(1000 + Math.random() * 9000)
+        let genOTP=Math.floor(1000 + Math.random() * 9000);
+        setgenOTP(genOTP);
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if((email.trim()).match(mailformat))
         {

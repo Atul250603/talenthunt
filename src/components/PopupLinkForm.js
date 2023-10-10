@@ -45,7 +45,7 @@ function PopupLinkForm({setidentifier,title,socials,setsocials}){
                         <img src={crossIcon} alt="close-icon" className='hover:cursor-pointer' onClick={()=>{closePopUp()}}/>
                     </div>
                 </div>
-                <div className='mt-4 flex flex-col justify-center'>
+                <div className='mt-4 flex flex-col justify-center heading'>
                     <div className='w-full flex flex-col items-center'>
                         <div className="border-2 border-purple-600 rounded px-3 py-1 w-3/4 my-2">
                             <div className="text-purple-600 font-medium">Link Title</div>
