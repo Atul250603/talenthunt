@@ -3,12 +3,13 @@ import viewIcon from '../images/view.svg'
 import hideIcon from '../images/hide.svg'
 import { useState } from 'react'
 import {toast } from 'react-toastify';
-
+import { useNavigate } from 'react-router-dom';
 function Login({loginDisplay,setloginDisplay}){
     const [view, setview] = useState(false);
     const [email,setEmail]=useState('');
     const [pass,setPass]=useState('');
     const[showSpinner,setshowSpinner]=useState(false);
+    const navigate=useNavigate();
     function validData(){
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         var passformat=/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
@@ -43,6 +44,9 @@ function Login({loginDisplay,setloginDisplay}){
                 setEmail('');
                 setPass('');
                 setloginDisplay(false);
+                if(msg.user.type==='Candidate'){
+                    navigate('/user');
+                }
             }
             else if(msg && msg.error){
                 toast.error(msg.error);
