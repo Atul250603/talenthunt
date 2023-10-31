@@ -150,7 +150,7 @@ function Chat(){
             <div className="w-[89%] bg-white rounded-xl my-2 relative left-[10%] flex-col">
                 {(data)?<div className='w-full h-full'><div className="flex items-center gap-2 bg-slate-200 rounded-lg mx-2 my-2 px-2 py-2 h-max ">
                     <div className='w-[40px] h-[40px] border-2 border-purple-600 rounded-full'>
-                        <img src={(data.profileImg)?data.profileImg:userAvatar} alt="user-icon" className='w-full h-full'/>
+                        <img src={(data.profileImg)?data.profileImg:userAvatar} alt="user-icon" className='w-full h-full rounded-full'/>
                     </div>
                     <div className='capitalize font-semibold heading'>{data.fname +" "+data.lname}</div>
                 </div>
