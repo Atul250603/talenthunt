@@ -299,7 +299,7 @@ function EditProfile({seteditProfile,setidentifier,data,setData,education,work,s
     return(
         <div className="px-3 py-3 heading">
            
-            <div className="text-2xl text-purple-600 font-bold py-2 border-b-2 border-b-purple-600">
+            <div className="text-xl text-purple-600 font-bold py-2 border-b-2 border-b-purple-600">
                 Edit My Profile
             </div>
             <div className="mt-3 font-semibold">

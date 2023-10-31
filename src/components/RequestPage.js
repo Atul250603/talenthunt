@@ -1,18 +1,131 @@
+import { useEffect, useState } from 'react';
 import userAvatar from '../images/userAvatar.png'
-import editIcon from '../images/editIcon.svg'
-function MyProfile({seteditProfile,data}){
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+function RequestPage(){
+    const [data,setData]=useState();
+    const {id,uid}=useParams();
+    const {state}=useLocation();
+    const navigate=useNavigate();
+    useEffect(()=>{
+        async function init(){
+            try{
+            let storage=localStorage.getItem('storage');
+            if(!storage){
+                navigate('/');
+            }
+            storage=JSON.parse(storage);
+            if(storage && storage.auth){
+                if(!state || !state.userinfo){
+                    const resp=await fetch(`http://localhost:5000/project/getprofile/${uid}/p/${id}`,{
+                        method:"POST",
+                        mode:"cors",
+                        headers:{
+                            "Content-Type": "application/json",
+                            "authToken":storage.auth
+                        }
+                    });
+                    const msg=await resp.json();
+                    if(msg && msg.success){
+                        setData(msg.user_info);
+                    }
+                    else if(msg && msg.error){
+                        throw msg.error;
+                    }
+                    else{
+                       throw "Some Error Occured";
+                    }
+                }
+                else{
+                    setData(state.userinfo);
+                }
+            }
+            else{
+                navigate('/');
+            }
+        }
+        catch(error){
+            toast.error(error);
+            navigate('/user/projects/myprojects');
+        }
+        }
+        init();
+    },[])
+    async function rejectRequest(){
+        try{
+            let storage=localStorage.getItem('storage');
+            if(!storage){
+                navigate('/');
+            }
+            storage=JSON.parse(storage);
+            if(storage && storage.auth){
+                const resp=await fetch(`http://localhost:5000/project/rejectuser/${id}/u/${uid}`,{
+                    method:"POST",
+                    mode:"cors",
+                    headers:{
+                        "Content-Type": "application/json",
+                        "authToken":storage.auth
+                    }
+                })
+                const msg=await resp.json();
+                if(msg && msg.success){
+                    toast.success(msg.success);
+                    navigate(`/user/projects/myprojects/${id}`,{state:{...state}});
+                }
+                else if(msg && msg.error){
+                    throw msg.error;
+                }
+                else{
+                   throw "Some Error Occured";
+                }
+            }
+        }
+        catch(error){
+            toast.error(error);
+            navigate('/user/projects/myprojects');
+        }
+    }
+    async function acceptRequest(){
+        try{
+            let storage=localStorage.getItem('storage');
+            if(!storage){
+                navigate('/');
+            }
+            storage=JSON.parse(storage);
+            if(storage && storage.auth){
+                const resp=await fetch(`http://localhost:5000/project/acceptuser/${id}/u/${uid}`,{
+                    method:"POST",
+                    mode:"cors",
+                    headers:{
+                        "Content-Type": "application/json",
+                        "authToken":storage.auth
+                    }
+                })
+                const msg=await resp.json();
+                if(msg && msg.success){
+                    toast.success(msg.success);
+                    navigate(`/user/projects/myprojects/${id}`,{state:{...state}});
+                }
+                else if(msg && msg.error){
+                    throw msg.error;
+                }
+                else{
+                   throw "Some Error Occured";
+                }
+            }
+        }
+        catch(error){
+            toast.error(error);
+            navigate('/user/projects/myprojects');
+        }
+    }
     return(
         <div className="px-3 py-3 heading">
-            <div className="text-xl text-purple-600 font-bold py-2 border-b-2 border-b-purple-600">
-                My Profile
-            </div>
+           {(data)?
             <div className="mt-3 font-semibold">
                 <div className="bg-slate-100 px-4 py-2 rounded-xl">
                     <div className="my-2 flex justify-between items-center">
                         <div className="text-purple-600">Basic Information</div>
-                        <div className="hover:cursor-pointer">
-                            <img src={editIcon} alt="edit-icon" onClick={()=>{seteditProfile(true)}}/>
-                        </div>
                     </div>
                     <div className="flex items-center gap-3 my-3 font-medium">
                         <div className="user-image">
@@ -40,9 +153,6 @@ function MyProfile({seteditProfile,data}){
                     <div className="bg-slate-100 px-4 py-2 rounded-xl">
                         <div className="my-2 flex justify-between items-center">
                             <div className="text-purple-600">Education Qualification</div>
-                            <div className="hover:cursor-pointer">
-                                <img src={editIcon} alt="edit-icon" onClick={()=>{seteditProfile(true)}}/>
-                            </div>
                         </div>
                         <div className='font-medium'>
                             {(data.education.length)?data.education.map((element,idx)=><div className={`pb-3 ${(data.education.length>1 && idx!=(data.education.length-1))?' borderbtm':""}`} key={idx}>
@@ -64,9 +174,6 @@ function MyProfile({seteditProfile,data}){
                     <div className="bg-slate-100 px-4 py-2 rounded-xl">
                         <div className="my-2 flex justify-between items-center">
                             <div className="text-purple-600">Work Experience</div>
-                            <div className="hover:cursor-pointer">
-                                <img src={editIcon} alt="edit-icon" onClick={()=>{seteditProfile(true)}}/>
-                            </div>
                         </div>
                         <div className='font-medium'>
                             {
@@ -91,18 +198,18 @@ function MyProfile({seteditProfile,data}){
                     <div className="bg-slate-100 px-4 py-2 rounded-xl">
                         <div className="my-2 flex justify-between items-center">
                             <div className="text-purple-600">Skills</div>
-                            <div className="hover:cursor-pointer">
-                                <img src={editIcon} alt="edit-icon" onClick={()=>{seteditProfile(true)}}/>
-                            </div>
                         </div>
                         <div className='mt-3 flex gap-2 font-medium'>
                             {(data.skills.length)?data.skills.map((element,idx)=><div className='rounded-full bg-slate-600 min-w-[4%] w-auto text-center px-2 py-1 text-white' key={idx}>{element}</div>):<></>}
                         </div>   
-                    </div>
+                    </div> 
                 </div>
-
-            </div>
+                <div className='mt-4 font-semibold w-full flex justify-center items-center gap-4'>
+                    <div className='w-1/4 text-center bg-red-600 text-white px-2 py-2 rounded-full hover:cursor-pointer' onClick={()=>{rejectRequest()}}>Reject</div>   
+                    <div className='w-1/4 text-center bg-green-600 text-white px-2 py-2 rounded-full hover:cursor-pointer' onClick={()=>{acceptRequest()}}>Accept</div>   
+                </div>
+            </div>:<div>Loading...</div>}
         </div>
     )
 }
-export default MyProfile;
+export default RequestPage;

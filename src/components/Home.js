@@ -4,9 +4,23 @@ import project2 from '../images/project2.png';
 import event from '../images/event.png';
 import code from '../images/code.png';
 import Login from './Login';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Signup from './Signup';
+import { useNavigate } from 'react-router-dom';
 function Home({loginDisplay,signupDisplay,setloginDisplay,setsignupDisplay}){
+    const navigate=useNavigate();
+    useEffect(()=>{
+        function init(){
+            let storage=localStorage.getItem('storage');
+            if(storage){
+                storage=JSON.parse(storage);
+                if(storage.auth){
+                    navigate('/user/projects/');
+                }
+            }
+        }
+        init();
+    },[])
     return(
         <div className="bg-gradient-to-r from-transparent to-purple-100">
             <div className='flex justify-center items-center w-full px-3 '>

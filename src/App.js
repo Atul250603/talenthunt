@@ -6,21 +6,45 @@ import { useState } from 'react';
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Routes,Route } from 'react-router-dom';
+import Profile from './components/Profile';
 import User from './components/User';
+import Projects from './components/Projects';
+import AllProjects from './components/AllProjects';
+import MyProjects from './components/MyProjects';
+import MyProjectPage from './components/MyProjectPage';
+import RequestPage from './components/RequestPage';
+import Chat from './components/Chat';
+import AppliedProjects from './components/AppliedProjects';
+import ProjectPage from './components/ProjectPage';
+import Error404 from './components/Error404';
 function App() {
   const [loginDisplay, setloginDisplay] = useState(false);
   const [signupDisplay, setsignupDisplay] = useState(false);
+  const [allProjects,setallProjects]=useState([]);
+  const [myProject,setmyProject]=useState([]);
   return (
-    <div>
+    <div className='overflow-x-hidden'>
       <ToastContainer
         autoClose={2000}
         theme='dark'
       />
       <Routes>
-        <Route exact path='/' element={<><Navbar setloginDisplay={setloginDisplay} setsignupDisplay={setsignupDisplay}/>
-        <Home loginDisplay={loginDisplay} signupDisplay={signupDisplay} setloginDisplay={setloginDisplay} setsignupDisplay={setsignupDisplay}/>
-        <Footer/></>}/>
-        <Route exact path="/user" element={<User/>}/> 
+          <Route  exact path='/' element={<><Navbar setloginDisplay={setloginDisplay} setsignupDisplay={setsignupDisplay}/>
+            <Home loginDisplay={loginDisplay} signupDisplay={signupDisplay} setloginDisplay={setloginDisplay} setsignupDisplay={setsignupDisplay}/>
+            <Footer/></>}/>
+          <Route exact path="/user" element={<User/>}>
+          <Route  exact path="profile" element={<Profile/>}/>
+          <Route  exact path="projects" element={<Projects myProject={myProject} setmyProject={setmyProject}/>}>
+            <Route index element={<AllProjects allProjects={allProjects} setallProjects={setallProjects}/>} />
+            <Route exact path="myprojects" element={<MyProjects myProject={myProject} setmyProject={setmyProject}/>}/>
+            <Route exact path="myprojects/:id" element={<MyProjectPage/>}/>
+            <Route exact path="myprojects/:id/u/:uid" element={<RequestPage/>}/>
+            <Route exact path="appliedprojects" element={<AppliedProjects/>}/>
+            <Route exact path="projectpage/:id" element={<ProjectPage/>}/>
+          </Route>
+          <Route exact path="chat/:pid/:uid" element={<Chat/>}/>
+        </Route>
+        <Route exact path="*" element={<Error404/>}/>
       </Routes>
     </div>
   );

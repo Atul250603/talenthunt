@@ -45,7 +45,10 @@ function Login({loginDisplay,setloginDisplay}){
                 setPass('');
                 setloginDisplay(false);
                 if(msg.user.type==='Candidate'){
-                    navigate('/user');
+                    if(msg.user.profileCompleted)
+                        navigate('/user/projects/');
+                    if(!msg.user.profileCompleted)
+                        navigate('/user/profile');
                 }
             }
             else if(msg && msg.error){
