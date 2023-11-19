@@ -1,5 +1,5 @@
-import userAvatar from '../images/userAvatar.png'
-import sendIcon from '../images/sendIcon.svg'
+import userAvatar from '../../images/userAvatar.png'
+import sendIcon from '../../images/sendIcon.svg'
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -19,7 +19,7 @@ function Chat(){
             if(!storage){
                 navigate('/');
             }
-            storage=JSON.parse(storage);
+            storage=await JSON.parse(storage);
             if(storage && storage.auth){
                     if(!state || !state.userinfo){
                         const resp1=await fetch(`http://localhost:5000/project/getprofile/${uid}/p/${pid}`,{
@@ -100,7 +100,7 @@ function Chat(){
             if(!storage){
                 navigate('/');
             }
-            storage=JSON.parse(storage);
+            storage=await JSON.parse(storage);
             if(storage && storage.auth){
                     if(!(msg.trim()).length){
                         throw "Message Can't Be Empty";

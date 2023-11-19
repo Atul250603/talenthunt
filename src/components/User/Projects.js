@@ -1,7 +1,7 @@
 import { NavLink, Outlet } from "react-router-dom";
 import {useState} from 'react'
 import ProjectForm from './ProjectForm';
-import addIcon from '../images/fillAddIcon.svg';
+import addIcon from '../../images/fillAddIcon.svg';
 function Projects({myProject,setmyProject}){
     const [showProjectForm, setshowProjectForm] = useState(false);
     return(

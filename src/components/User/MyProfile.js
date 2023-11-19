@@ -1,5 +1,5 @@
-import userAvatar from '../images/userAvatar.png'
-import editIcon from '../images/editIcon.svg'
+import userAvatar from '../../images/userAvatar.png'
+import editIcon from '../../images/editIcon.svg'
 function MyProfile({seteditProfile,data}){
     return(
         <div className="px-3 py-3 heading">

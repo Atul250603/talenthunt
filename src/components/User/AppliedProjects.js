@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import rightArrowIcon from '../images/rightArrowIcon.svg'
+import rightArrowIcon from '../../images/rightArrowIcon.svg'
 function AppliedProjects(){
     const [projects,setprojects]=useState(null);
     const [type,settype]=useState(0);
@@ -14,7 +14,7 @@ function AppliedProjects(){
                 if(!storage){
                     navigate('/');
                 }
-                storage=JSON.parse(storage);
+                storage=await JSON.parse(storage);
                 if(storage && storage.auth){
                     const resp=await fetch(`http://localhost:5000/project/appliedProject`,{
                         method:"POST",

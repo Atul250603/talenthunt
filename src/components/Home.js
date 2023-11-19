@@ -15,7 +15,12 @@ function Home({loginDisplay,signupDisplay,setloginDisplay,setsignupDisplay}){
             if(storage){
                 storage=JSON.parse(storage);
                 if(storage.auth){
-                    navigate('/user/projects/');
+                    if(storage.user.type==='Candidate'){
+                        navigate('/user/projects/');
+                    }
+                    else if(storage.user.type==='Organizer'){
+                        navigate('/org/hackathons'); 
+                    }
                 }
             }
         }

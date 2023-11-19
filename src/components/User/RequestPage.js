@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import userAvatar from '../images/userAvatar.png'
+import userAvatar from '../../images/userAvatar.png'
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 function RequestPage(){
@@ -14,7 +14,7 @@ function RequestPage(){
             if(!storage){
                 navigate('/');
             }
-            storage=JSON.parse(storage);
+            storage=await JSON.parse(storage);
             if(storage && storage.auth){
                 if(!state || !state.userinfo){
                     const resp=await fetch(`http://localhost:5000/project/getprofile/${uid}/p/${id}`,{
@@ -57,7 +57,7 @@ function RequestPage(){
             if(!storage){
                 navigate('/');
             }
-            storage=JSON.parse(storage);
+            storage=await JSON.parse(storage);
             if(storage && storage.auth){
                 const resp=await fetch(`http://localhost:5000/project/rejectuser/${id}/u/${uid}`,{
                     method:"POST",
@@ -91,7 +91,7 @@ function RequestPage(){
             if(!storage){
                 navigate('/');
             }
-            storage=JSON.parse(storage);
+            storage=await JSON.parse(storage);
             if(storage && storage.auth){
                 const resp=await fetch(`http://localhost:5000/project/acceptuser/${id}/u/${uid}`,{
                     method:"POST",

@@ -1,5 +1,5 @@
-import correctIcon from '../images/tickIcon.svg';
-import closeIcon from '../images/redCloseIcon.svg';
+import correctIcon from '../../images/tickIcon.svg';
+import closeIcon from '../../images/redCloseIcon.svg';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -14,7 +14,7 @@ function AllProjects({allProjects,setallProjects}){
                 if(!storage){
                     navigate('/');
                 }
-                storage=JSON.parse(storage);
+                storage=await JSON.parse(storage);
                 if(storage && storage.auth){
                     const resp=await fetch("http://localhost:5000/project/allprojects",{
                         method:"POST",

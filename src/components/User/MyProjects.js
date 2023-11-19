@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import rightArrowIcon from '../images/rightArrowIcon.svg';
+import rightArrowIcon from '../../images/rightArrowIcon.svg';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 function MyProjects({myProject,setmyProject}){
@@ -11,7 +11,7 @@ function MyProjects({myProject,setmyProject}){
             if(!storage){
                 navigate('/');
             }
-            storage=JSON.parse(storage);
+            storage=await JSON.parse(storage);
             if(storage && storage.auth){
                 const resp=await fetch("http://localhost:5000/project/myprojects",{
                     method:"POST",

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import crossIcon from '../images/closeIcon.svg'
+import crossIcon from '../../images/closeIcon.svg'
 import { toast } from 'react-toastify';
 function PopupLinkForm({setidentifier,title,socials,setsocials}){
     const [linktitle, setlinktitle] = useState('');

@@ -1,6 +1,6 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import rightArrowIcon from '../images/rightArrowIcon.svg';
-import userAvatar from '../images/userAvatar.png';
+import rightArrowIcon from '../../images/rightArrowIcon.svg';
+import userAvatar from '../../images/userAvatar.png';
 import { useEffect,useState} from 'react';
 import { toast } from 'react-toastify';
 function MyProjectPage(){
@@ -19,7 +19,7 @@ function MyProjectPage(){
             if(!storage){
                 navigate('/');
             }
-            storage=JSON.parse(storage);
+            storage=await JSON.parse(storage);
             if(storage && storage.auth){
                 if(!state || !state.myproject){
                     const resp=await fetch(`http://localhost:5000/project/myproject/${id}`,{

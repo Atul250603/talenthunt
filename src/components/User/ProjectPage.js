@@ -14,7 +14,7 @@ function ProjectPage(){
             if(!storage){
                 navigate('/');
             }
-            storage=JSON.parse(storage);
+            storage=await JSON.parse(storage);
             if(storage && storage.auth){
                 if(!state || !state.myproject){
                     const resp=await fetch(`http://localhost:5000/project/myproject/${id}`,{

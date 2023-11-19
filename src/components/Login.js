@@ -50,6 +50,12 @@ function Login({loginDisplay,setloginDisplay}){
                     if(!msg.user.profileCompleted)
                         navigate('/user/profile');
                 }
+                else if(msg.user.type==='Organizer'){
+                    if(msg.user.profileCompleted)
+                        navigate('/org/hackathons/');
+                    if(!msg.user.profileCompleted)
+                        navigate('/org/profile');
+                }
             }
             else if(msg && msg.error){
                 toast.error(msg.error);

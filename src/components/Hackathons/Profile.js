@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import MyProfile from "./MyProfile";
-import Sidepanel from "./Sidepanel";
 import EditProfile from "./EditProfile";
-import PopupEducationForm from "./PopupEducationForm";
-import PopupWorkForm from "./PopupWorkForm";
 import PopupLinkForm from "./PopupLinkForm";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -15,15 +12,10 @@ function Profile(){
         lname:'',
         email:'',
         currorg:'',
-        education:[],
-        workexp:[],
-        skills:[],
         socials:[],
         profileimg:'',
         resume:''
     });
-    const [education, seteducation] = useState([])
-    const [work, setwork] = useState([])
     const [socials, setsocials] = useState([])
     const navigate=useNavigate();
     useEffect(()=>{
@@ -34,8 +26,6 @@ function Profile(){
                 if(storage && storage.auth && storage.user && storage.user.profileCompleted){
                         if(storage.user_info){
                             setData(storage.user_info);
-                            seteducation(storage.user_info.education);
-                            setwork(storage.user_info.workexp);
                             setsocials(storage.user_info.socials);
                         }
                         else{
@@ -55,11 +45,8 @@ function Profile(){
                             if(msg && msg.success){
                                 storage={...storage,user_info:msg.user_info};
                                 setData(storage.user_info);
-                                seteducation(storage.user_info.education);
-                                setwork(storage.user_info.workexp);
                                 setsocials(storage.user_info.socials);
                                 localStorage.setItem("storage",JSON.stringify(storage));
-                                return;
                             }
                         }
                 }
@@ -80,12 +67,12 @@ function Profile(){
         initializeStates();
     },[])
     return(
-        <div className="w-full min-h-screen max-h-auto bg-slate-100 flex">
-            {(identifier===1)?<PopupEducationForm setidentifier={setidentifier}  title="Education Qualification" education={education} seteducation={seteducation}/>:(identifier===2)?<PopupWorkForm setidentifier={setidentifier}  title="Work Experience" work={work} setwork={setwork}/>:(identifier===3)?<PopupLinkForm setidentifier={setidentifier}  title="Social Link" socials={socials} setsocials={setsocials}/>:
+        <div className="w-full h-full bg-slate-100 flex justify-center">
+            {(identifier===1)?<PopupLinkForm setidentifier={setidentifier}  title="Social Link" socials={socials} setsocials={setsocials}/>:
             <></>}
-            <div className="w-[89%] bg-white rounded-xl my-2 relative left-[10%]">
+            <div className="w-[98%] h-max bg-white rounded-xl my-2">
                 {
-                    (!editProfile)?<MyProfile seteditProfile={seteditProfile} data={data}/>:<EditProfile seteditProfile={seteditProfile} setidentifier={setidentifier} data={data} setData={setData} education={education} work={work} socials={socials}/>
+                    (!editProfile)?<MyProfile seteditProfile={seteditProfile} data={data}/>:<EditProfile seteditProfile={seteditProfile} setidentifier={setidentifier} data={data} setData={setData} socials={socials}/>
                 }
             </div>
         </div>
