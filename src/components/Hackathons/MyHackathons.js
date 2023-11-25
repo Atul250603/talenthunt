@@ -17,6 +17,14 @@ function MyHackathon(){
                 }
                 storage=await JSON.parse(storage);
                 if(storage && storage.auth){
+                    if(storage.user && storage.user.type==='Candidate'){
+                        navigate('/user/projects')
+                    }
+                    else{
+                        if(storage.user && !storage.user.profileCompleted){
+                            navigate('/org/profile');
+                        }
+                        else{
                     const resp=await fetch("http://localhost:5000/hackathon/gethackathon",{
                         method:"POST",
                         mode:"cors",
@@ -35,7 +43,8 @@ function MyHackathon(){
                     else{
                         throw "Some Error Occured";
                     }
-    
+                }
+                }
                 }
                 else if(storage && !storage.auth){
                     navigate('/');

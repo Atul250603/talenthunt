@@ -7,10 +7,12 @@ import Login from './Login';
 import { useEffect, useState } from 'react';
 import Signup from './Signup';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 function Home({loginDisplay,signupDisplay,setloginDisplay,setsignupDisplay}){
     const navigate=useNavigate();
     useEffect(()=>{
         function init(){
+            try{
             let storage=localStorage.getItem('storage');
             if(storage){
                 storage=JSON.parse(storage);
@@ -22,6 +24,16 @@ function Home({loginDisplay,signupDisplay,setloginDisplay,setsignupDisplay}){
                         navigate('/org/hackathons'); 
                     }
                 }
+                else{
+                    navigate('/');
+                }
+            }
+            else{
+                navigate('/');
+            }
+            }
+            catch(error){
+                toast.error(error);
             }
         }
         init();

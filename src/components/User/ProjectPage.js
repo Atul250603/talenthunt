@@ -16,6 +16,14 @@ function ProjectPage(){
             }
             storage=await JSON.parse(storage);
             if(storage && storage.auth){
+                if(storage.user && storage.user.type==='Organizer'){
+                    navigate('/org/hackathons')
+                }
+                else{
+                    if(storage.user && !storage.user.profileCompleted){
+                        navigate('/user/profile');
+                    }
+                    else{
                 if(!state || !state.myproject){
                     const resp=await fetch(`http://localhost:5000/project/myproject/${id}`,{
                         method:"POST",
@@ -40,6 +48,8 @@ function ProjectPage(){
                     setmyProject(state.myproject);
                 }
             }
+            }
+            }
             else{
                 navigate('/');
             }
@@ -56,7 +66,7 @@ function ProjectPage(){
           {(myProject)?<><div className='flex gap-2 items-center'><div className="text-purple-600 font-semibold text-2xl">{myProject.projectTitle}</div> {(myProject.sameOrg)?<div className='rounded-full bg-slate-600 text-center px-2 py-1 text-white text-xs'>Same Organization Only</div>:<></>}</div>
            <div className="my-3">
                 <div className="text-purple-600 font-medium text-lg">Description</div>
-                <div className="text-sm">{myProject.description}</div>
+                <div className="text-sm break-all">{myProject.description}</div>
            </div>
            <div className="my-3">
                 <div className="text-purple-600 font-medium text-lg">Skills Needed</div>

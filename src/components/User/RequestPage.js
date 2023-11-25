@@ -16,6 +16,14 @@ function RequestPage(){
             }
             storage=await JSON.parse(storage);
             if(storage && storage.auth){
+                if(storage.user && storage.user.type==='Organizer'){
+                    navigate('/org/hackathons')
+                }
+                else{
+                    if(storage.user && !storage.user.profileCompleted){
+                        navigate('/user/profile');
+                    }
+                    else{
                 if(!state || !state.userinfo){
                     const resp=await fetch(`http://localhost:5000/project/getprofile/${uid}/p/${id}`,{
                         method:"POST",
@@ -39,6 +47,8 @@ function RequestPage(){
                 else{
                     setData(state.userinfo);
                 }
+            }
+            }
             }
             else{
                 navigate('/');

@@ -16,6 +16,14 @@ function AllProjects({allProjects,setallProjects}){
                 }
                 storage=await JSON.parse(storage);
                 if(storage && storage.auth){
+                    if(storage.user && storage.user.type==='Organizer'){
+                        navigate('/org/hackathons')
+                    }
+                    else{
+                        if(storage.user && !storage.user.profileCompleted){
+                            navigate('/user/profile');
+                        }
+                        else{
                     const resp=await fetch("http://localhost:5000/project/allprojects",{
                         method:"POST",
                         mode:"cors",
@@ -34,7 +42,8 @@ function AllProjects({allProjects,setallProjects}){
                     else{
                         throw "Some Error Occured";
                     }
-    
+                }
+                }
                 }
                 else if(storage && !storage.auth){
                     navigate('/');
@@ -156,7 +165,7 @@ function AllProjects({allProjects,setallProjects}){
                         {(element.sameOrg)?<div className='rounded-full bg-slate-600 text-center px-2 py-1 text-white text-xs w-max mt-2'>Same Organization Only</div>:<></>}
                         <div className='mt-2'>
                             <div className='text-lg'>Description</div>
-                            <div className='text-medium mt-2 font-medium'>
+                            <div className='text-medium mt-2 font-medium break-all'>
                                { (element.description.length>300)?(<>{element.description.substring(0,299)}<NavLink to={`/user/projects/projectpage/${element._id}`} className="font-semibold underline">...more</NavLink></>):element.description}
                             </div>
                         </div>

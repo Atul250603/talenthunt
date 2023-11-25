@@ -21,6 +21,14 @@ function Chat(){
             }
             storage=await JSON.parse(storage);
             if(storage && storage.auth){
+                if(storage.user && storage.user.type==='Organizer'){
+                    navigate('/org/hackathons')
+                }
+                else{
+                    if(storage.user && !storage.user.profileCompleted){
+                        navigate('/user/profile');
+                    }
+                    else{
                     if(!state || !state.userinfo){
                         const resp1=await fetch(`http://localhost:5000/project/getprofile/${uid}/p/${pid}`,{
                             method:"POST",
@@ -70,6 +78,8 @@ function Chat(){
                     else{
                        throw "Some Error Occured";
                     }
+                }
+                }
             }
             else{
                 navigate('/');

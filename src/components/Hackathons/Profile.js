@@ -24,6 +24,10 @@ function Profile(){
                 let storage=localStorage.getItem('storage');
                 storage=JSON.parse(storage);
                 if(storage && storage.auth && storage.user && storage.user.profileCompleted){
+                        if(storage.user.type==='Candidate'){
+                            navigate('/user/projects')
+                        }
+                        else{
                         if(storage.user_info){
                             setData(storage.user_info);
                             setsocials(storage.user_info.socials);
@@ -49,6 +53,7 @@ function Profile(){
                                 localStorage.setItem("storage",JSON.stringify(storage));
                             }
                         }
+                    }
                 }
                 else if(storage && storage.auth && storage.user && !storage.user.profileCompleted){
                     toast('Complete Your Profile So That We Can Serve You With Better Results',{

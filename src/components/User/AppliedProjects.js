@@ -16,6 +16,14 @@ function AppliedProjects(){
                 }
                 storage=await JSON.parse(storage);
                 if(storage && storage.auth){
+                    if(storage.user && storage.user.type==='Organizer'){
+                        navigate('/org/hackathons')
+                    }
+                    else{
+                        if(storage.user && !storage.user.profileCompleted){
+                            navigate('/user/profile');
+                        }
+                        else{
                     const resp=await fetch(`http://localhost:5000/project/appliedProject`,{
                         method:"POST",
                         mode:"cors",
@@ -34,6 +42,8 @@ function AppliedProjects(){
                     else{
                        throw "Some Error Occured";
                     }
+                }
+                }
                 }
             }
             catch(error){

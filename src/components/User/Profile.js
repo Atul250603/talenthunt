@@ -31,6 +31,14 @@ function Profile(){
                 let storage=localStorage.getItem('storage');
                 storage=await JSON.parse(storage);
                 if(storage && storage.auth && storage.user && storage.user.profileCompleted){
+                    if(storage.user && storage.user.type==='Organizer'){
+                        navigate('/org/hackathons')
+                    }
+                        else{
+                            if(storage.user && !storage.user.profileCompleted){
+                                navigate('/user/profile');
+                            }
+                            else{
                         if(storage.user_info){
                             setData(storage.user_info);
                             seteducation(storage.user_info.education);
@@ -61,6 +69,8 @@ function Profile(){
                                 return;
                             }
                         }
+                    }
+                }
                 }
                 else if(storage && storage.auth && storage.user && !storage.user.profileCompleted){
                     toast('Complete Your Profile So That We Can Serve You With Better Results',{

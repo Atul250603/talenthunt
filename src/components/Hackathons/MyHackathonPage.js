@@ -24,6 +24,14 @@ function MyHackathonPage(){
                 }
                 storage=await JSON.parse(storage);
                 if(storage && storage.auth){
+                    if(storage.user && storage.user.type==='Candidate'){
+                        navigate('/user/projects')
+                    }
+                    else{
+                        if(storage.user && !storage.user.profileCompleted){
+                            navigate('/org/profile');
+                        }
+                        else{
                     const resp=await fetch(`http://localhost:5000/hackathon/myhackathon/${id}`,{
                         method:"POST",
                         mode:"cors",
@@ -46,7 +54,9 @@ function MyHackathonPage(){
                     else{
                         throw "Some Error Occured";
                     }
+                    }
                 }
+            }
                 else{
                     navigate('/');
                 }
@@ -100,10 +110,10 @@ function MyHackathonPage(){
                 })
                 const msg=await resp.json();
                 if(msg && msg.success){
-                    let tmphackathon=[...hackathon];
+                    let tmphackathon=hackathon;
                     for(let index=0;index<tmphackathon.submissions.length;index++){
                         if(String(tmphackathon.submissions[index].userId)===String(user)){
-                            tmphackathon[index]={
+                            tmphackathon.submissions[index]={
                                 ...tmphackathon.submissions[index],
                                 prize:allotedPrize
                             }
