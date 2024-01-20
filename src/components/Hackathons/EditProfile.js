@@ -74,6 +74,14 @@ function EditProfile({seteditProfile,setidentifier,data,setData,socials}){
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if((email.trim()).match(mailformat))
         {
+            let storage=localStorage.getItem('storage');
+            storage=JSON.parse(storage);
+            if(storage.user && storage.user.email){
+                if(storage.user.email===email){
+                    setemailverified(true);
+                    return;
+                }
+            }
            let resp=await fetch('http://localhost:5000/auth/emailverify',{
             method:"POST",
             mode:"cors",
@@ -148,7 +156,7 @@ function EditProfile({seteditProfile,setidentifier,data,setData,socials}){
             return false;
         }
         if(!socialslen){
-            toast.error("Socail Links Are Required");
+            toast.error("Social Links Are Required");
             return false;
         }
         if((profileimgDownloadLink.trim()).length>0)return true;

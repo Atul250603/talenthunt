@@ -20,6 +20,9 @@ function MyHackathon(){
                     if(storage.user && storage.user.type==='Candidate'){
                         navigate('/user/projects')
                     }
+                    else if(storage.user && storage.user.type==='Recruiter'){
+                        navigate('/recruiter/jobs')
+                    }
                     else{
                         if(storage.user && !storage.user.profileCompleted){
                             navigate('/org/profile');
@@ -66,7 +69,7 @@ function MyHackathon(){
                     <img src={rightArrowIcon} alt="icon"/>
                 </div>
             </div>):<div className='flex items-center h-full justify-center font-semibold heading'>Why Don't You Organize Hackathon.....</div>}
-            <div className="h-[50px] w-[50-px] fixed bottom-[30px] right-[30px]  hover:cursor-pointer shadow-lg shadow-slate-300 z-30 rounded-full" onClick={()=>setshowProjectForm(true)}>
+            <div className="h-[50px] w-[50-px] bg-white rounded-full fixed bottom-[30px] right-[30px]  hover:cursor-pointer shadow-lg shadow-slate-600 z-30 rounded-full" onClick={()=>setshowProjectForm(true)}>
                 <img src={addIcon} alt="icon" className='w-full h-full'/>
             </div>
         </div>

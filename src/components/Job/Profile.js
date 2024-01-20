@@ -8,10 +8,10 @@ function Profile(){
     const [editProfile, seteditProfile] = useState(false);
     const [identifier,setidentifier]=useState(0);
     const [data,setData]=useState({
+        orgname:'',
         fname:'',
         lname:'',
         email:'',
-        currorg:'',
         socials:[],
         profileimg:''
     });
@@ -20,14 +20,15 @@ function Profile(){
     useEffect(()=>{
        async function initializeStates(){
             try{
+                console.log('hsfkhskhf');
                 let storage=localStorage.getItem('storage');
                 storage=JSON.parse(storage);
                 if(storage && storage.auth && storage.user && storage.user.profileCompleted){
                         if(storage.user.type==='Candidate'){
                             navigate('/user/projects')
                         }
-                        else if(storage.user.type==='Recruiter'){
-                            navigate('/recruiter/jobs');
+                        else if(storage.user.type==='Organizer'){
+                            navigate('/org/hackathons');
                         }
                         else{
                         if(storage.user_info){
@@ -59,7 +60,7 @@ function Profile(){
                 }
                 else if(storage && storage.auth && storage.user && !storage.user.profileCompleted){
                     toast('Complete Your Profile So That We Can Serve You With Better Results',{
-                        toastId:'uniquetoastid1'
+                        toastId:'uniquetoastid2'
                     });
                     seteditProfile(true);
                 }

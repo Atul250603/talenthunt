@@ -57,7 +57,7 @@ function HackathonForm({myProject,setmyProject,setshowProjectForm}){
                     toast('Complete Your Profile So That We Can Serve You With Better Results',{
                         toastId:'uniquetoastid2'
                     });
-                    navigate('/user/profile');
+                    navigate('/org/profile');
                 }
                 else if(!storage || !storage.user || !storage.auth){
                     navigate('/');
@@ -125,7 +125,7 @@ function HackathonForm({myProject,setmyProject,setshowProjectForm}){
             throw 'Organizer Name Is Required';
         }
         else if(desclen<=0){
-            throw 'Project Description Is Required';
+            throw 'Hackathon Description Is Required';
         }
         else if(ruleslen<=0){
             throw 'Rules Are Required';

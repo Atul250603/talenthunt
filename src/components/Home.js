@@ -23,6 +23,9 @@ function Home({loginDisplay,signupDisplay,setloginDisplay,setsignupDisplay}){
                     else if(storage.user.type==='Organizer'){
                         navigate('/org/hackathons'); 
                     }
+                    else if(storage.user.type==='Recruiter'){
+                        navigate('/recruiter/jobs')
+                    }
                 }
                 else{
                     navigate('/');

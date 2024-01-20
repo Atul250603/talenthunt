@@ -56,6 +56,12 @@ function Login({loginDisplay,setloginDisplay}){
                     if(!msg.user.profileCompleted)
                         navigate('/org/profile');
                 }
+                else if(msg.user.type==='Recruiter'){
+                    if(msg.user.profileCompleted)
+                        navigate('/recruiter/jobs/');
+                    if(!msg.user.profileCompleted)
+                        navigate('/recruiter/profile');
+                }
             }
             else if(msg && msg.error){
                 toast.error(msg.error);
