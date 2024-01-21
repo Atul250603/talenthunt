@@ -28,6 +28,7 @@ import HackathonPage from './components/User/HackathonPage';
 import MyHackathonPage from './components/Hackathons/MyHackathonPage';
 import Job from './components/Job/Job';
 import MyJobs from './components/Job/MyJobs';
+import MyJobPage from './components/Job/MyJobPage';
 function App() {
   const [loginDisplay, setloginDisplay] = useState(false);
   const [signupDisplay, setsignupDisplay] = useState(false);
@@ -67,6 +68,7 @@ function App() {
         </Route>
         <Route eaxct path="/recruiter" element={<Job/>}>
           <Route exact path="jobs" element={<MyJobs/>}></Route>
+          <Route exact path="jobs/:id" element={<MyJobPage/>}></Route>
           <Route exact path="profile" element={<RecruiterProfile/>}></Route>
         </Route>
         <Route exact path="*" element={<Error404/>}/>

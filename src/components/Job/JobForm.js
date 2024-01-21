@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react';
 import crossIcon from '../../images/closeIcon.svg'
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 function JobForm({myProject,setmyProject,setshowJobForm}){
     const [jobTitle, setjobTitle] = useState('');
     const [organizer,setOrganizer]=useState('');
     const [description,setDescription]=useState('');
     const [location,setLocation]=useState('');
     const [salary,setSalary]=useState('');
+    const [appdeadline,setappdeadline]=useState('');
     const [showSpinner,setshowSpinner]=useState(false);
     const navigate=useNavigate();
     useEffect(()=>{
@@ -65,6 +68,7 @@ function JobForm({myProject,setmyProject,setshowJobForm}){
         setOrganizer('');
         setSalary('');
         setLocation('');
+        setappdeadline('');
         setshowJobForm(false);
     }
     async function addNewJob(){
@@ -75,6 +79,8 @@ function JobForm({myProject,setmyProject,setshowJobForm}){
         let desclen=(description.trim()).length;
         let sallen=(salary.trim()).length;
         let loclen=(location.trim()).length;
+        let appdeadlinelen=(String(appdeadline).trim()).length;
+        let appdeadlineval=new Date(appdeadline);
         if(jobTitlelen<=0){
             throw 'Hackathon Title Is Required';
         }
@@ -87,11 +93,20 @@ function JobForm({myProject,setmyProject,setshowJobForm}){
         else if(sallen<=0){
             throw 'Salary Is Required';
         }
+        else if(salary.match(/^[0-9]+$/) === null){
+            throw 'Salary Must Be A Number';
+        }
         else if(Number(salary)<=0){
             throw 'Salary Must Be Greater Than 0';
         }
         else if(loclen<=0){
             throw 'Location Is Required';
+        }
+        else if(appdeadlinelen<=0){
+            throw 'Application Deadline Is Required';
+        }
+        else if(appdeadlineval.toLocaleDateString()<new Date().toLocaleDateString()){
+            throw "Application Deadline Can't Be In Past ";
         }
         else{
             let data={
@@ -99,34 +114,35 @@ function JobForm({myProject,setmyProject,setshowJobForm}){
                 organizer:organizer,
                 description:description,
                 salary:salary,
-                location:location
+                location:location,
+                appdeadline:appdeadline
             }
             let storage=localStorage.getItem('storage');
             storage=JSON.parse(storage);
-            // let resp=await fetch("http://localhost:5000/hackathon/createhackathon",{
-            //     method:"POST",
-            //     mode: "cors",
-            //     headers:{
-            //         "Content-Type": "application/json",
-            //         "authToken":storage.auth
-            //     },
-            //     body:JSON.stringify(data)
-            // });
-            // let msg=await resp.json();
-            // if(msg && msg.success){
-            //     let cpymyprojects=[...myProject];
-            //     cpymyprojects.push(msg.hackathon);
-            //     setmyProject(cpymyprojects);
-            //     toast.success(msg.success);
-            //     setshowSpinner(false);
-            //     closePopUp();
-            // }
-            // else if(msg && msg.error){
-            //     throw msg.error;
-            // }
-            // else{
-            //     throw "Some Error Occured";
-            // }
+            let resp=await fetch("http://localhost:5000/job/createjob",{
+                method:"POST",
+                mode: "cors",
+                headers:{
+                    "Content-Type": "application/json",
+                    "authToken":storage.auth
+                },
+                body:JSON.stringify(data)
+            });
+            let msg=await resp.json();
+            if(msg && msg.success){
+                let cpymyprojects=[...myProject];
+                cpymyprojects.push(msg.job);
+                setmyProject(cpymyprojects);
+                toast.success(msg.success);
+                setshowSpinner(false);
+                closePopUp();
+            }
+            else if(msg && msg.error){
+                throw msg.error;
+            }
+            else{
+                throw "Some Error Occured";
+            }
         }
         }
         catch(error){
@@ -171,6 +187,15 @@ function JobForm({myProject,setmyProject,setshowJobForm}){
                                 <input name='jobloc' id='jobloc' value={location} onChange={(e)=>setLocation(e.target.value)} className='resize-none outline-none w-full bg-white'/> 
                             </div>
                         </div>
+                        <div className="border-2 border-purple-600 rounded px-3 py-1 w-3/4 my-2">
+                                <div className="text-purple-600 font-medium">Application Deadline</div>
+                                <div className="py-1 w-full">
+                                    <DatePicker
+                                        selected={appdeadline}
+                                        onChange={(date) => setappdeadline(date)} 
+                                    />   
+                                </div>
+                            </div>
                     <div className='w-full mt-4 flex justify-center'>
                     <button className="bg-purple-600 text-white w-1/2 px-2 py-2 rounded-xl font-semibold" onClick={()=>{addNewJob()}}>{(showSpinner)?<svg aria-hidden="true" role="status" className="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>

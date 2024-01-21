@@ -27,6 +27,9 @@ function MyHackathonPage(){
                     if(storage.user && storage.user.type==='Candidate'){
                         navigate('/user/projects')
                     }
+                    else if(storage.user && storage.user.type==='Recruiter'){
+                        navigate('/recruiter/jobs')
+                    }
                     else{
                         if(storage.user && !storage.user.profileCompleted){
                             navigate('/org/profile');
