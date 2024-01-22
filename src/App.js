@@ -29,6 +29,9 @@ import MyHackathonPage from './components/Hackathons/MyHackathonPage';
 import Job from './components/Job/Job';
 import MyJobs from './components/Job/MyJobs';
 import MyJobPage from './components/Job/MyJobPage';
+import Jobs from './components/User/Jobs';
+import AllJobs from './components/User/AllJobs';
+import UserProfile from './components/Job/UserProfile';
 function App() {
   const [loginDisplay, setloginDisplay] = useState(false);
   const [signupDisplay, setsignupDisplay] = useState(false);
@@ -59,6 +62,9 @@ function App() {
               <Route exact path="applied" element={<AppliedHackathons/>}/>
               <Route exact path="applied/:id" element={<HackathonPage/>}/>
             </Route>
+            <Route exact path="jobs" element={<Jobs/>}>
+              <Route index element={<AllJobs/>} />
+            </Route>
             <Route exact path="chat/:pid/:uid" element={<Chat/>}/>
         </Route>
         <Route exact path="/org" element={<Hackathon/>}>
@@ -70,6 +76,7 @@ function App() {
           <Route exact path="jobs" element={<MyJobs/>}></Route>
           <Route exact path="jobs/:id" element={<MyJobPage/>}></Route>
           <Route exact path="profile" element={<RecruiterProfile/>}></Route>
+          <Route exact path="userprofile/:uid/:id" element={<UserProfile/>}></Route>
         </Route>
         <Route exact path="*" element={<Error404/>}/>
       </Routes>
