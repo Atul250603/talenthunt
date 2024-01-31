@@ -192,7 +192,7 @@ function MyJobPage(){
                     <div>{job.jobId.organizer}</div>  
                 </div>
                 <div className="flex gap-2">
-                    <div className="bg-purple-600 text-white px-2 py-1 rounded-full hover:cursor-pointer">Take Assignment</div>
+                    <div className="bg-purple-600 text-white px-2 py-1 rounded-full hover:cursor-pointer" onClick={()=>navigate(`/recruiter/assignment/${id}`)}>Take Assignment</div>
                     <div className="bg-purple-600 text-white px-2 py-1 rounded-full hover:cursor-pointer">Schedule Interview</div>
                 </div>
             </div>   

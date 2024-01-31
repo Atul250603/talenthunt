@@ -20,7 +20,6 @@ function Profile(){
     useEffect(()=>{
        async function initializeStates(){
             try{
-                console.log('hsfkhskhf');
                 let storage=localStorage.getItem('storage');
                 storage=JSON.parse(storage);
                 if(storage && storage.auth && storage.user && storage.user.profileCompleted){

@@ -32,6 +32,7 @@ import MyJobPage from './components/Job/MyJobPage';
 import Jobs from './components/User/Jobs';
 import AllJobs from './components/User/AllJobs';
 import UserProfile from './components/Job/UserProfile';
+import Assignment from './components/Job/Assignment';
 function App() {
   const [loginDisplay, setloginDisplay] = useState(false);
   const [signupDisplay, setsignupDisplay] = useState(false);
@@ -77,6 +78,7 @@ function App() {
           <Route exact path="jobs/:id" element={<MyJobPage/>}></Route>
           <Route exact path="profile" element={<RecruiterProfile/>}></Route>
           <Route exact path="userprofile/:uid/:id" element={<UserProfile/>}></Route>
+          <Route exact path="assignment/:id" element={<Assignment/>}></Route>
         </Route>
         <Route exact path="*" element={<Error404/>}/>
       </Routes>
