@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import rightArrowIcon from '../../images/rightArrowIcon.svg'
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
-function AppliedHackathons(){
-    const [appliedHackathons,setappliedHackathons]=useState([]);
+function AppliedJobs(){
+    const [appliedJobs,setappliedJobs]=useState([]);
     const navigate=useNavigate();
     const {state}=useLocation();
     useEffect(()=>{
@@ -18,12 +18,15 @@ function AppliedHackathons(){
                     if(storage.user && storage.user.type==='Organizer'){
                         navigate('/org/hackathons')
                     }
+                    else if(storage.user && storage.user.type==='Recruiter'){
+                        navigate('/recruiter/jobs')
+                    }
                     else{
                         if(storage.user && !storage.user.profileCompleted){
                             navigate('/user/profile');
                         }
                         else{
-                    const resp=await fetch('http://localhost:5000/hackathon/applied',{
+                    const resp=await fetch('http://localhost:5000/job/applied',{
                         method:"POST",
                         mode:"cors",
                         headers:{
@@ -33,7 +36,7 @@ function AppliedHackathons(){
                     })
                     const msg=await resp.json();
                     if(msg && msg.success){
-                        setappliedHackathons(msg.hackathons);
+                        setappliedJobs(msg.jobs);
                     }
                     else if(msg && msg.error){
                         throw msg.error;
@@ -55,9 +58,9 @@ function AppliedHackathons(){
         init();
     },[])
     return(
-        <div className="w-full h-full heading px-4">
-            {(appliedHackathons && appliedHackathons.length>0)?appliedHackathons.map((element,idx)=><div className='bg-slate-600 rounded-lg px-4 py-3 my-2 flex justify-between items-center text-white heading hover:cursor-pointer' key={idx} onClick={()=>{navigate(`/user/hackathons/applied/${element.hackathonId._id}`)}}>
-                <div className='text-xl font-semibold'>{element.hackathonId.hackathonTitle}</div>
+        <div className="w-full h-full heading px-4 overflow-y-auto">
+            {(appliedJobs && appliedJobs.length>0)?appliedJobs.map((element,idx)=><div className='bg-slate-600 rounded-lg px-4 py-3 my-2 flex justify-between items-center text-white heading hover:cursor-pointer' key={idx} onClick={()=>{navigate(`/user/jobs/applied/${element.jobId._id}`)}}>
+                <div className='text-xl font-semibold'>{element.jobId.jobTitle}</div>
                 <div>
                     <img src={rightArrowIcon} alt="icon"/>
                 </div>
@@ -65,4 +68,4 @@ function AppliedHackathons(){
         </div>
     )
 }
-export default AppliedHackathons;
+export default AppliedJobs;

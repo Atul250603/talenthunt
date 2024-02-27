@@ -5,7 +5,7 @@ function PublishAssignment({data}){
     return (
         <div className="w-full h-max">
     {(data)?<div>
-        <div className="font-semibold text-purple-600 text-2xl">{data.assignmentname}</div>
+        <div className="font-semibold text-purple-600 text-2xl text-center my-2">{data.assignmentname}</div>
         <div className="flex gap-3 mb-2 flex-wrap">
         <div className="flex gap-2 font-semibold">
         <div className="text-purple-600">Assignment Date - </div>

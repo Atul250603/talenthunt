@@ -8,7 +8,8 @@ function AssignmentForm({setdisabled,setdata}){
     const [duration,setduration]=useState('');
     const [mark,setmark]=useState('');
     const [negativemarking,setnegativemarking]=useState(false);
-    function validate(name,date,duration,mark,caller){
+    let localnegativemarking=negativemarking;
+    function validate(name,date,duration,mark,e,caller){
         try{
             let namelen=(name.trim()).length;
             let durationlen=(duration.trim()).length;
@@ -21,7 +22,8 @@ function AssignmentForm({setdisabled,setdata}){
             if(caller===2 && datelen<=0){
                 throw 'Assignment Date Is Required';
             }
-            if(caller===2 && dateval.toLocaleDateString()<=new Date().toLocaleDateString()){
+            if((caller===2) && (dateval.toLocaleDateString()<=(new Date().toLocaleDateString()))){
+                console.log("Errororoororor");
                 throw 'Assignment Date Must Be A Future Date';
             }
             if(caller===3 && durationlen<=0){
@@ -42,15 +44,18 @@ function AssignmentForm({setdisabled,setdata}){
             if(caller===4 && Number(mark)<=0){
                 throw 'Question Weightage Must Be Greater Than 0';
             }
-            if(namelen>0 && datelen>0 && dateval.toLocaleDateString()>new Date().toLocaleDateString() && durationlen>0 & marklen>0 && duration.match(/^[0-9]+$/) !== null && Number(duration)>0 && mark.match(/^[0-9]+$/) !== null && Number(mark)>0){
-                setdata((prev)=>({...prev,assignmentname:name,assignmentdate:date,assignmentduration:duration,assignmentmark:mark,negativemarking:!negativemarking}));
+            if(caller===5){
+                localnegativemarking=!negativemarking;
+            }
+            if(namelen>0 && datelen>0 && dateval.toLocaleDateString()>(new Date().toLocaleDateString()) && durationlen>0 & marklen>0 && duration.match(/^[0-9]+$/) !== null && Number(duration)>0 && mark.match(/^[0-9]+$/) !== null && Number(mark)>0){
+                setdata((prev)=>({...prev,assignmentname:name,assignmentdate:date,assignmentduration:duration,assignmentmark:mark,negativemarking:localnegativemarking}));
                 setdisabled(false);
             }
         }
         catch(error){
             setdisabled(true);
             toast.error(error,{
-                toastId:"formerror"
+                toastId:"formerrorid1"
             });
         }
     }
@@ -92,7 +97,7 @@ function AssignmentForm({setdisabled,setdata}){
                     <div className="font-semibold text-purple-600 dark:text-gray-300">Negative Marking</div>
                     <div className='flex items-center justify-center'>
                         <label className="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" value={negativemarking} class="sr-only peer" onClick={(e)=>{setnegativemarking((prev)=>!prev); validate(name,date,duration,mark,5)}}/>
+                            <input type="checkbox" value={negativemarking} class="sr-only peer" onClick={(e)=>{setnegativemarking((prev)=>!prev); validate(name,date,duration,mark,e,5)}}/>
                             <div className="w-11 h-6 bg-slate-500 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-purple-600"></div>
                         </label>
                     </div>

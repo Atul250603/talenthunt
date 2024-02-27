@@ -189,14 +189,18 @@ function MyJobPage(){
             <div className="flex justify-between items-center">
                 <div>
                     <div className="font-semibold text-purple-600 text-2xl">{job.jobId.jobTitle}</div>
-                    <div>{job.jobId.organizer}</div>  
+                    <div className="font-semibold">{job.jobId.organizer}</div>  
                 </div>
                 <div className="flex gap-2">
                     <div className="bg-purple-600 text-white px-2 py-1 rounded-full hover:cursor-pointer" onClick={()=>navigate(`/recruiter/assignment/${id}`)}>Take Assignment</div>
                     <div className="bg-purple-600 text-white px-2 py-1 rounded-full hover:cursor-pointer">Schedule Interview</div>
                 </div>
             </div>   
-
+            <div className="flex">
+                {
+                    (job.assignments && job.assignments.length>0)?<div className="bg-purple-600 text-white px-2 py-1 rounded-full hover:cursor-pointer" onClick={()=>navigate(`/recruiter/jobs/${id}/myassignments`,{state:{assignments:job.assignments}})}>My Assignments</div>:<></>
+                }
+            </div>
             <div className="font-semibold text-purple-600">Description</div>
             <div className="break-all text-sm whitespace-pre-line">{job.jobId.description}</div>
             <div className="font-semibold text-purple-600">Application Deadline</div>

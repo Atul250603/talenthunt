@@ -128,7 +128,7 @@ function AllJobs(){
                 <div className="font-semibold text-purple-600">Description</div>
                 <div className="break-all whitespace-pre-line">{jobs[dispIdx].description}</div>
                 <div className="font-semibold text-purple-600">Application Deadline</div>
-                <div>{jobs[dispIdx].appdeadline}</div>
+                <div>{new Date(jobs[dispIdx].appdeadline).toLocaleString()}</div>
                 <div className="font-semibold text-purple-600">Salary</div>
                 <div>{jobs[dispIdx].salary}</div>
                 <div className="font-semibold text-purple-600">Job Location</div>

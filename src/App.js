@@ -33,6 +33,12 @@ import Jobs from './components/User/Jobs';
 import AllJobs from './components/User/AllJobs';
 import UserProfile from './components/Job/UserProfile';
 import Assignment from './components/Job/Assignment';
+import UserAssignment from './components/User/Assignment';
+import AppliedJobs from './components/User/AppliedJobs';
+import JobPage from './components/User/JobPage';
+import AllAssignments from './components/User/AllAssignments';
+import MyAssignments from './components/Job/MyAssignments';
+import MyAssignmentPage from './components/Job/MyAssignmentPage';
 function App() {
   const [loginDisplay, setloginDisplay] = useState(false);
   const [signupDisplay, setsignupDisplay] = useState(false);
@@ -65,6 +71,10 @@ function App() {
             </Route>
             <Route exact path="jobs" element={<Jobs/>}>
               <Route index element={<AllJobs/>} />
+              <Route exact path='applied' element={<AppliedJobs/>}/>
+              <Route exact path='applied/:id' element={<JobPage/>}/>
+              <Route exact path='applied/:id/assignments' element={<AllAssignments/>}/>
+              <Route exact path='applied/:id/assignments/:id2' element={<UserAssignment/>}/>
             </Route>
             <Route exact path="chat/:pid/:uid" element={<Chat/>}/>
         </Route>
@@ -76,6 +86,8 @@ function App() {
         <Route eaxct path="/recruiter" element={<Job/>}>
           <Route exact path="jobs" element={<MyJobs/>}></Route>
           <Route exact path="jobs/:id" element={<MyJobPage/>}></Route>
+          <Route exact path="jobs/:id/myassignments" element={<MyAssignments/>}></Route>
+          <Route exact path="jobs/:id/myassignments/:id2" element={<MyAssignmentPage/>}></Route>
           <Route exact path="profile" element={<RecruiterProfile/>}></Route>
           <Route exact path="userprofile/:uid/:id" element={<UserProfile/>}></Route>
           <Route exact path="assignment/:id" element={<Assignment/>}></Route>
