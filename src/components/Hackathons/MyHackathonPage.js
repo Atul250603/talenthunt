@@ -46,7 +46,9 @@ function MyHackathonPage(){
                     const msg=await resp.json();
                     if(msg && msg.success){
                         setHackathon(msg.hackathon);
+                        if(msg.hackathon.hackathonId){
                         setPrizes(msg.hackathon.hackathonId.prizes);
+                        }
                         toast.success(msg.success,{
                             toastId:"hackathonId"
                         });
@@ -114,6 +116,7 @@ function MyHackathonPage(){
                 const msg=await resp.json();
                 if(msg && msg.success){
                     let tmphackathon=hackathon;
+                    if(tmphackathon.submissions){
                     for(let index=0;index<tmphackathon.submissions.length;index++){
                         if(String(tmphackathon.submissions[index].userId)===String(user)){
                             tmphackathon.submissions[index]={
@@ -122,6 +125,7 @@ function MyHackathonPage(){
                             }
                         }
                     }
+                }
                     setHackathon(tmphackathon);
                     toast.success(msg.success);
                     setShowSpinner(false);
@@ -217,9 +221,9 @@ function MyHackathonPage(){
                         <div className="text-sm break-all">{element.prizeDescription}</div>
                     </div>)}
                 </div>
-                <div className="font-semibold text-purple-600">Participants</div>
+                <div>{((hackathon.applied&&hackathon.applied.length>0) || (hackathon.submissions && hackathon.submissions.length>0))?<div className="font-semibold text-purple-600">Participants</div>:<div className="flex justify-center font-semibold">No User Data Yet...</div>}
                 <div className="flex w-3/4 gap-2 mt-2">
-                    <div className="w-1/2 px-2 py-2 rounded-xl flex gap-3 items-center bg-slate-300">
+                    {(hackathon.applied && hackathon.applied.length>0)?<div className="w-1/2 px-2 py-2 rounded-xl flex gap-3 items-center bg-slate-300">
                         <div className="w-[9%]">
                             <img src={userIcon} alt="icon" className="w-full"/>
                         </div>
@@ -227,7 +231,7 @@ function MyHackathonPage(){
                             <div className="text-purple-600 text-sm">Total Users Applied</div>
                             <div>{hackathon.applied.length}</div>
                         </div>
-                    </div>
+                    </div>:<></>}{(hackathon.submissions && hackathon.submissions.length>0)?
                     <div className="w-1/2 px-2 py-2 rounded-xl flex gap-3 items-center bg-slate-300">
                         <div className="w-[9%]">
                             <img src={eventIcon} alt="icon" className="w-full"/>
@@ -236,8 +240,8 @@ function MyHackathonPage(){
                             <div className="text-purple-600 text-sm">Total Users Attempted</div>
                             <div>{hackathon.submissions.length}</div>
                         </div>
-                    </div>
-                </div>
+                    </div>:<></>}
+                </div></div>
                 <div className="mt-4 w-full flex flex-wrap gap-2">
                     {(hackathon.submissions && hackathon.submissions.length>0)?hackathon.submissions.map((element,idx)=><div className="w-1/3 bg-slate-300 rounded-xl px-3 py-3 relative" key={idx}>
                         <div className="flex items-center gap-3">

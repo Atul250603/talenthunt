@@ -17,7 +17,7 @@ function Analysis({assignment,sol}){
                         <div className="font-semibold text-2xl py-2 break-words">{assignment.questions[selected].question}</div>
                         <div className="font-semibold text-xl w-full flex flex-col items-center">
                             {
-                                assignment.questions[selected].options.map((element,idx)=><div className={`w-[50%] rounded mb-3 p-2  hover:cursor-pointer  ${(element===assignment.questions[selected].correct_answer)?"text-white bg-green-600 border-2 border-green-600":(sol.solutions.status==="Wrong" && element===sol.solutions[selected].option)?"text-white bg-red-600 border-2 border-red-600":"border-2 border-purple-600"}`} key={idx}>{String.fromCharCode(65+idx)+". "+element}</div>)
+                                assignment.questions[selected].options.map((element,idx)=><div className={`w-[50%] rounded mb-3 p-2  hover:cursor-pointer  ${(element===assignment.questions[selected].correct_answer)?"text-white bg-green-600 border-2 border-green-600":(sol.solutions[selected].status==="Wrong" && element===sol.solutions[selected].option)?"text-white bg-red-600 border-2 border-red-600":"border-2 border-purple-600"}`} key={idx}>{String.fromCharCode(65+idx)+". "+element}</div>)
                             }
                         </div>
                         </div>

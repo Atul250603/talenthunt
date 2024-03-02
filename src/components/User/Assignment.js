@@ -43,9 +43,13 @@ function Assignment(){
                     const msg=await resp.json();
                     if(msg && msg.success){
                         let assig=await JSON.parse(atob(msg.assignment));
-                        let uid=await JSON.parse(localStorage.getItem('storage')).user_info.userId;
-                        let solution=assig.solutions.find((element)=>element.userId===uid);
-                        setsol(solution);
+                        let uid=storage.user._id;
+                        let solution=null;
+                        if(assig.solutions && assig.solutions.length>0){
+                            solution=assig.solutions.find((element)=>element.userId===uid);
+                            setsol(solution);
+                        }
+                       
                         let currTime=new Date().getTime();
                         let assignmentstartTime=new Date(assig.assignmentdate).getTime();
                         let assignmentendTime=new Date(assignmentstartTime+(Number(assig.assignmentduration*60*60*1000))).getTime();
@@ -55,6 +59,7 @@ function Assignment(){
                         }
                         else if(assignmentstartTime>currTime){
                             setstatus(1);
+                            
                         }
                         else{
                             setstatus(2);
@@ -140,7 +145,7 @@ function Assignment(){
                             <div className="font-semibold my-3"><span className=" text-purple-600">Negative Marking - </span>{(assignment.negativemarking)?"Yes":"No"}</div>
                             <div className="font-semibold my-3"><span className=" text-purple-600">Number Of Questions - </span>{assignment.questions.length}</div>
                             
-                            {(time)?<div className="flex flex-col justify-center my-4">
+                            {(time)?<div className="w-full flex flex-col justify-center my-4">
                             <div className="text-center text-lg font-semibold my-2">Assignment Will Start In</div>
                             <div className="text-center text-lg font-semibold my-2 bg-purple-600 px-2 py-2 pl-4 rounded-full text-white w-max self-center">{time}</div>
                             </div>:<></>}

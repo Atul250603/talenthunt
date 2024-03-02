@@ -41,7 +41,9 @@ function MyAssignments(){
                                 })
                                 const msg=await resp.json();
                                 if(msg && msg.success){
-                                    toast.success(msg.success)
+                                    toast.success(msg.success,{
+                                        toastId:"myassignmnets"
+                                    })
                                     setassignments(msg.assignments);
                                 }
                                 else if(msg && msg.error){
@@ -59,7 +61,9 @@ function MyAssignments(){
                 }
             }
             catch(error){
-                toast.error(error);
+                toast.error(error,{
+                    toastId:"myassignmnets"
+                });
             }
         }
         init();

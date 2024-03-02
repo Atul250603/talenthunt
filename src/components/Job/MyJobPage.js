@@ -191,10 +191,10 @@ function MyJobPage(){
                     <div className="font-semibold text-purple-600 text-2xl">{job.jobId.jobTitle}</div>
                     <div className="font-semibold">{job.jobId.organizer}</div>  
                 </div>
-                <div className="flex gap-2">
+                {(job.shortlisted && job.shortlisted.length>0 && new Date(job.jobId.appdeadline).getTime()<=new Date().getTime())?<div className="flex gap-2">
                     <div className="bg-purple-600 text-white px-2 py-1 rounded-full hover:cursor-pointer" onClick={()=>navigate(`/recruiter/assignment/${id}`)}>Take Assignment</div>
                     <div className="bg-purple-600 text-white px-2 py-1 rounded-full hover:cursor-pointer">Schedule Interview</div>
-                </div>
+                </div>:<></>}
             </div>   
             <div className="flex">
                 {
@@ -215,9 +215,9 @@ function MyJobPage(){
             <div>
                 {job.jobId.location}
             </div>
-            <div className="font-semibold text-purple-600">Participants</div>
+            <div>{((job.nonshortlisted && job.nonshortlisted.length>0) || (job.shortlisted && job.shortlisted.length>0) || (job.pending&&job.pending.length>0))?<div className="font-semibold text-purple-600">Participants</div>:<div className="flex justify-center font-semibold">No User Data Yet...</div>}
             <div className="flex w-3/4 gap-2 mt-2">
-                <div className="w-1/2 px-2 py-2 rounded-xl flex gap-3 items-center bg-slate-300">
+                {(job.nonshortlisted && job.shortlisted && job.pending)?<div className="w-1/2 px-2 py-2 rounded-xl flex gap-3 items-center bg-slate-300">
                     <div className="w-[9%]">
                         <img src={userIcon} alt="icon" className="w-full"/>
                     </div>
@@ -225,8 +225,8 @@ function MyJobPage(){
                         <div className="text-purple-600 text-sm">Total Users Applied</div>
                         <div>{job.nonshortlisted.length + job.shortlisted.length + job.pending.length}</div>
                     </div>
-                </div>
-                <div className="w-1/2 px-2 py-2 rounded-xl flex gap-3 items-center bg-slate-300">
+                </div>:<></>}
+                {(job.shortlisted && job.shortlisted.length>0)?<div className="w-1/2 px-2 py-2 rounded-xl flex gap-3 items-center bg-slate-300">
                     <div className="w-[9%]">
                         <img src={eventIcon} alt="icon" className="w-full"/>
                     </div>
@@ -234,7 +234,8 @@ function MyJobPage(){
                         <div className="text-purple-600 text-sm">Total Users Shortlisted</div>
                         <div>{job.shortlisted.length}</div>
                     </div>
-                </div>
+                </div>:<></>}
+            </div>
             </div>
             <div className="mt-4 w-full w-100">
                 <div className="w-100 flex justify-between">

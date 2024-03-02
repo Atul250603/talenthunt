@@ -23,7 +23,6 @@ function AssignmentForm({setdisabled,setdata}){
                 throw 'Assignment Date Is Required';
             }
             if((caller===2) && (dateval.toLocaleDateString()<=(new Date().toLocaleDateString()))){
-                console.log("Errororoororor");
                 throw 'Assignment Date Must Be A Future Date';
             }
             if(caller===3 && durationlen<=0){

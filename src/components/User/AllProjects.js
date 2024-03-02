@@ -165,7 +165,7 @@ function AllProjects({allProjects,setallProjects}){
                         {(element.sameOrg)?<div className='rounded-full bg-slate-600 text-center px-2 py-1 text-white text-xs w-max mt-2'>Same Organization Only</div>:<></>}
                         <div className='mt-2'>
                             <div className='text-lg'>Description</div>
-                            <div className='text-medium mt-2 font-medium break-all'>
+                            <div className='text-medium mt-2 font-medium break-all whitespace-pre-line'>
                                { (element.description.length>300)?(<>{element.description.substring(0,299)}<NavLink to={`/user/projects/projectpage/${element._id}`} className="font-semibold underline">...more</NavLink></>):element.description}
                             </div>
                         </div>

@@ -54,7 +54,9 @@ function MyHackathon(){
                 }
             }
             catch(error){
-                toast.error(error);
+                toast.error(error,{
+                    toastId:"hackathonerror"
+                });
                 navigate('/org/hackathons/');
             }
         }
