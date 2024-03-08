@@ -14,10 +14,10 @@ function Questions({setdisabled,setdata}){
                 storage=JSON.parse(storage);
                 if(storage && storage.auth){
                     if(storage.user.type==='Candidate'){
-                        navigate('/user/projects')
+                        navigate('/user/projects/')
                     }
                     else if(storage.user.type==='Organizer'){
-                        navigate('/org/hackathons');
+                        navigate('/org/hackathons/');
                     }
                     else{
                         const resp=await fetch('http://localhost:5000/job/questions',{

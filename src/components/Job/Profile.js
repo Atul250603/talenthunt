@@ -24,10 +24,10 @@ function Profile(){
                 storage=JSON.parse(storage);
                 if(storage && storage.auth && storage.user && storage.user.profileCompleted){
                         if(storage.user.type==='Candidate'){
-                            navigate('/user/projects')
+                            navigate('/user/projects/')
                         }
                         else if(storage.user.type==='Organizer'){
-                            navigate('/org/hackathons');
+                            navigate('/org/hackathons/');
                         }
                         else{
                         if(storage.user_info){

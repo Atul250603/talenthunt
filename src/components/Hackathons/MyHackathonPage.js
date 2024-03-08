@@ -25,14 +25,14 @@ function MyHackathonPage(){
                 storage=await JSON.parse(storage);
                 if(storage && storage.auth){
                     if(storage.user && storage.user.type==='Candidate'){
-                        navigate('/user/projects')
+                        navigate('/user/projects/')
                     }
                     else if(storage.user && storage.user.type==='Recruiter'){
-                        navigate('/recruiter/jobs')
+                        navigate('/recruiter/jobs/')
                     }
                     else{
                         if(storage.user && !storage.user.profileCompleted){
-                            navigate('/org/profile');
+                            navigate('/org/profile/');
                         }
                         else{
                     const resp=await fetch(`http://localhost:5000/hackathon/myhackathon/${id}`,{

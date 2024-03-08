@@ -18,14 +18,14 @@ function Job(){
                 storage=JSON.parse(storage);
                 if(storage && storage.auth && storage.user && storage.user.profileCompleted){
                     if(storage.user.type==='Candidate'){
-                        navigate('/user/projects')
+                        navigate('/user/projects/')
                     }
                     else if(storage.user.type==='Organizer'){
-                        navigate('/org/hackathons');
+                        navigate('/org/hackathons/');
                     }
                 }
                 else if(storage && storage.auth && storage.user && !storage.user.profileCompleted){
-                    navigate('/recruiter/profile');
+                    navigate('/recruiter/profile/');
                 }
                 else{
                     navigate('/');

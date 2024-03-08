@@ -18,14 +18,14 @@ function MyJobs(){
                 storage=await JSON.parse(storage);
                 if(storage && storage.auth){
                     if(storage.user && storage.user.type==='Candidate'){
-                        navigate('/user/projects')
+                        navigate('/user/projects/')
                     }
                     else if(storage.user && storage.user.type==='Organizer'){
-                        navigate('/org/hackathons')
+                        navigate('/org/hackathons/')
                     }
                     else{
                         if(storage.user && !storage.user.profileCompleted){
-                            navigate('/recruiter/profile');
+                            navigate('/recruiter/profile/');
                         }
                         else{
                     const resp=await fetch("http://localhost:5000/job/getjobs",{
