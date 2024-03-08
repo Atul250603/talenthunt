@@ -154,17 +154,17 @@ function HackathonForm({myProject,setmyProject,setshowProjectForm}){
         else if(hackstartdatevalue>=hackenddatevalue){
             throw "Hackathon Should Atleast Last For A Day ";
         }
-        else if(regstartdatevalue.toLocaleDateString()<new Date().toLocaleDateString()){
-            throw "Registration Date Can't Be In Past ";
+        else if(regstartdatevalue.getTime()<=new Date().getTime()){
+            throw "Registration Start Date Can't Be In Past ";
         }
-        else if(regenddatevalue.toLocaleDateString()<new Date().toLocaleDateString()){
-            throw "Registration Date Can't Be In Past ";
+        else if(regenddatevalue.getTime()<=new Date().getTime()){
+            throw "Registration End Date Can't Be In Past ";
         }
-        else if(hackstartdatevalue.toLocaleDateString()<new Date().toLocaleDateString()){
-            throw "Hackathon Date Can't Be In Past ";
+        else if(hackstartdatevalue.getTime()<=new Date().getTime()){
+            throw "Hackathon Start Date Can't Be In Past ";
         }
-        else if(hackenddatevalue.toLocaleDateString()<new Date().toLocaleDateString()){
-            throw "Hackathon Date Can't Be In Past ";
+        else if(hackenddatevalue.getTime()<=new Date().getTime()){
+            throw "Hackathon End Date Can't Be In Past ";
         }
         else{
             let data={

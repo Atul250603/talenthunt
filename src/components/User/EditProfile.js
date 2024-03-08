@@ -25,6 +25,8 @@ function EditProfile({seteditProfile,setidentifier,data,setData,education,work,s
     const [emailotp,setemailotp]=useState('');
     const[uploadshowSpinner,setuploadshowspinner]=useState(false);
     const [genOTP,setgenOTP]=useState('');
+    const [imgchange,setimgchange]=useState(true);
+    const [resumechange,setresumechange]=useState(true);
     useEffect(()=>{
         function initializeStates(){
             try{
@@ -47,10 +49,12 @@ function EditProfile({seteditProfile,setidentifier,data,setData,education,work,s
                     if(data.profileImg){
                         setprofileimgURL(data.profileImg);
                         setprofileimgDownloadLink(data.profileImg);
+                        setimgchange(false);
                     }
                     if(data.resume){
                         setresume(data.resume);
                         setresumeDownloadLink(data.resume);
+                        setresumechange(false);
                     }
                     if(!((data.email).trim()).length){
                         let storage=localStorage.getItem('storage');
@@ -233,10 +237,11 @@ function EditProfile({seteditProfile,setidentifier,data,setData,education,work,s
                 let profileimgDownloadLinkLocal=profileimgDownloadLink;
                 let resumeDownloadLinkLocal=resumeDownloadLink;
                 let uniqueid=uid(32);
-                if(!(profileimgDownloadLinkLocal.trim()).length){
+                    if(imgchange){
                     let imgext=profileimg.name.split('.').slice(-1)[0];
                     const profileImgRef=ref(storage,`profile_images/${uniqueid+"profileimg."+imgext}`);
                     const profileimgresp=await uploadBytes(profileImgRef,profileimg);
+                   
                     if(!profileimgresp){
                         throw "Error In Uploading Profile Image";
                     }
@@ -245,8 +250,9 @@ function EditProfile({seteditProfile,setidentifier,data,setData,education,work,s
                         throw "Error In Generating The Profile Image Link";
                     }
                     setprofileimgDownloadLink(profileimgDownloadLinkLocal);
-                }   
-                if(!(resumeDownloadLinkLocal.trim()).length){
+             
+                }
+                if(resumechange){
                     let resumext=resume.name.split('.').slice(-1)[0];
                     const resumeRef=ref(storage,`resume/${uniqueid+"resume."+resumext}`);
                     const resumeresp=await uploadBytes(resumeRef,resume);
@@ -313,7 +319,7 @@ function EditProfile({seteditProfile,setidentifier,data,setData,education,work,s
             <div className="mt-3 font-semibold">
                 <div className='flex flex-col items-center justify-center'>
                     <div className='user-image rounded-full'>
-                        <input type='file' name="profile_image" id="edit_profile_img" accept="image/png,image/jpeg" multiple={false}  onChange={(e)=>{setprofileimg(e.target.files[0]); setprofileimgURL(URL.createObjectURL(e.target.files[0]))}}/>
+                        <input type='file' name="profile_image" id="edit_profile_img" accept="image/png,image/jpeg" multiple={false}  onChange={(e)=>{setprofileimg(e.target.files[0]); setprofileimgURL(URL.createObjectURL(e.target.files[0])); setimgchange(true)}}/>
                         <label htmlFor='edit_profile_img' className='w-full h-full rounded-full'>
                             <img src={(profileimgURL)?profileimgURL:userAvatar} alt="user-profile-image" className='hover:cursor-pointer w-full h-full rounded-full border-2 border-purple-600'/>
                         </label>
@@ -464,7 +470,7 @@ function EditProfile({seteditProfile,setidentifier,data,setData,education,work,s
                 <div className='my-3 flex gap-2 items-center justify-center'>
                     <div className="w-2/3 flex gap-2 items-center justify-center">
                         <div className="text-purple-600 flex items-center justify-between w-1/2">
-                            <input type='file' name="resume_file" id="resume_file" accept=".pdf" multiple={false} onChange={(e)=>{setresume(e.target.files[0])}}/>
+                            <input type='file' name="resume_file" id="resume_file" accept=".pdf" multiple={false} onChange={(e)=>{setresume(e.target.files[0]); setresumechange(true);}}/>
                             <label htmlFor='resume_file' className='w-full'>
                                 <div className='border-2 border-purple-600 w-full px-2 py-2 rounded-full text-center hover:cursor-pointer'>Upload Resume</div>
                             </label>

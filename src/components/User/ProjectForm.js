@@ -164,7 +164,7 @@ function ProjectForm({myProject,setmyProject,setshowProjectForm}){
     }
     return(
         <div className="w-screen h-screen fixed flex items-center overflow-hidden justify-center bg-black bg-opacity-75 z-30 heading py-2">
-            <div className="w-1/2 h-[98%] bg-white rounded-xl px-3 py-3 overflow-y-scroll hideScroll">
+            <div className="w-1/2 min-h-max max-h-[98%] bg-white rounded-xl px-3 py-3 overflow-y-auto hideScroll">
                 <div className='flex items-center justify-between border-b-2 border-purple-600 pb-3'>
                     <div className='text-xl text-purple-600 heading font-semibold text-center'>Create New Project</div>
                     <div className='flex items-center'>

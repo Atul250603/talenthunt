@@ -216,7 +216,7 @@ function MyHackathonPage(){
                 </div>
                 <div className="font-semibold text-purple-600">Prizes</div>
                 <div className="w-full flex flex-wrap gap-2 my-2">
-                    {hackathon.hackathonId.prizes.map((element,idx)=><div className="px-2 py-2 w-1/3 bg-slate-300 rounded-xl" key={idx}>
+                    {hackathon.hackathonId.prizes.map((element,idx)=><div className="px-2 py-2 w-[30%] bg-slate-300 rounded-xl" key={idx}>
                         <div className="font-semibold text-purple-600">{element.prizeTitle}</div>
                         <div className="text-sm break-all">{element.prizeDescription}</div>
                     </div>)}

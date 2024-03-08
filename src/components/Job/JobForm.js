@@ -105,7 +105,7 @@ function JobForm({myProject,setmyProject,setshowJobForm}){
         else if(appdeadlinelen<=0){
             throw 'Application Deadline Is Required';
         }
-        else if(appdeadlineval.toLocaleDateString()<new Date().toLocaleDateString()){
+        else if(appdeadlineval.getTime()<=new Date().getTime()){
             throw "Application Deadline Can't Be In Past ";
         }
         else{

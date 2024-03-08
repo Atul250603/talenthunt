@@ -52,7 +52,7 @@ function MyProfile({seteditProfile,data}){
                                             <div>{element.coursename}</div>
                                             <div>{element.startyear + ' - ' +element.endyear}</div>
                                         </div>
-                                        <div>{element.grade}</div>
+                                        <div>Grade - {element.grade}</div>
                                     </div>
                                 </div>):<></>
                             }

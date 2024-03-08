@@ -112,7 +112,7 @@ function Analysis({solutions,marks,queststats,setmarks,setqueststats,setsolution
            <div>
                 {(solutions && solutions.length>0)?<div>
                     <div className='font-semibold text-purple-600 text-xl my-2 mt-3'>Applicant Wise Marks</div>
-                    <div className='w-full flex'>
+                    <div className='w-full flex gap-2 flex-wrap'>
                     {
                         solutions.map((element,idx)=><div className='w-1/3 bg-slate-300 rounded-xl px-3 py-3 relative' key={idx}>
                             <div className="flex items-center gap-3">

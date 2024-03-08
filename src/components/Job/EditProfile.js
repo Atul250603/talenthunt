@@ -22,6 +22,7 @@ function EditProfile({seteditProfile,setidentifier,data,setData,socials}){
     const [emailotp,setemailotp]=useState('');
     const[uploadshowSpinner,setuploadshowspinner]=useState(false);
     const [genOTP,setgenOTP]=useState('');
+    const [imgchange,setimgchange]=useState(true);
     const navigate=useNavigate();
     useEffect(()=>{
         function initializeStates(){
@@ -44,12 +45,13 @@ function EditProfile({seteditProfile,setidentifier,data,setData,socials}){
                     if(data.email){
                         setemail(data.email);
                     }
-                    if(data.orgname){
-                        setorgname(data.orgname);
+                    if(data.currorg){
+                        setorgname(data.currorg);
                     }
                     if(data.profileImg){
                         setprofileimgURL(data.profileImg);
                         setprofileimgDownloadLink(data.profileImg);
+                        setimgchange(false);
                     }
                     if(!((data.email).trim()).length){
                         let storage=localStorage.getItem('storage');
@@ -177,7 +179,7 @@ function EditProfile({seteditProfile,setidentifier,data,setData,socials}){
                 setuploadshowspinner(true);
                 let profileimgDownloadLinkLocal=profileimgDownloadLink;
                 let uniqueid=uid(32);
-                if(!(profileimgDownloadLinkLocal.trim()).length){
+                if(imgchange){
                     let imgext=profileimg.name.split('.').slice(-1)[0];
                     const profileImgRef=ref(storage,`profile_images/${uniqueid+"profileimg."+imgext}`);
                     const profileimgresp=await uploadBytes(profileImgRef,profileimg);
@@ -240,7 +242,7 @@ function EditProfile({seteditProfile,setidentifier,data,setData,socials}){
             <div className="mt-3 font-semibold">
                 <div className='flex flex-col items-center justify-center'>
                     <div className='user-image rounded-full'>
-                        <input type='file' name="profile_image" id="edit_profile_img" accept="image/png,image/jpeg" multiple={false}  onChange={(e)=>{setprofileimg(e.target.files[0]); setprofileimgURL(URL.createObjectURL(e.target.files[0]))}}/>
+                        <input type='file' name="profile_image" id="edit_profile_img" accept="image/png,image/jpeg" multiple={false}  onChange={(e)=>{setprofileimg(e.target.files[0]); setprofileimgURL(URL.createObjectURL(e.target.files[0])); setimgchange(true)}}/>
                         <label htmlFor='edit_profile_img' className='w-full h-full rounded-full'>
                             <img src={(profileimgURL)?profileimgURL:userAvatar} alt="user-profile-image" className='hover:cursor-pointer w-full h-full rounded-full border-2 border-purple-600'/>
                         </label>
