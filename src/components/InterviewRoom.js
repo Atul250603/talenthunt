@@ -114,7 +114,19 @@ function InterviewRoom({socket}){
                 })})}
     },[usertype,remotepeer])
     
-    function removeuser(data){
+    async function removeuser(data){
+        if(myvideoref.current && myvideoref.current.srcObject){
+            const stream=await myvideoref.current.srcObject;
+            if(stream){
+                stream.getTracks().forEach(async(track)=>await track.stop())
+            }
+        }
+        if(remotevideoref.current && remotevideoref.current.srcObject){
+            const stream=await remotevideoref.current.srcObject;
+            if(stream){
+            stream.getTracks().forEach(async(track)=>await track.stop())
+            }
+        }
         setremotepeer(null);
     }
 
@@ -168,20 +180,20 @@ function InterviewRoom({socket}){
                 Interview Room
             </div>
             {(remotepeer)?<div className="flex w-full h-[90%] gap-2 justify-center items-center flex-1">
-                <div className="w-max h-max">
-                    <div className="w-max border-2 border-purple-600 rounded-xl h-max">
-                        <div className="h-full w-full">
+                <div className="w-max h-[70%] rounded-xl border-2 border-purple-600">
+                    <div className="w-max h-full">
+                        <div className="h-[90%]">
                         <video ref={myvideoref} className="w-max rounded-tl-xl rounded-tr-xl h-full"/>
                         </div>
-                        <div className="p-2 text-center font-semibold text-purple-600 bg-slate-300 rounded-bl-xl rounded-br-xl">My Feed</div>
+                        <div className=" h-[10%] p-2 text-center font-semibold text-purple-600 bg-slate-300 rounded-bl-xl rounded-br-xl">My Feed</div>
                     </div>
                 </div>
-                <div className="w-max h-max">
-                    <div className="w-max border-2 border-purple-600 rounded-xl h-max">
-                        <div className="h-full w-full">
+                <div className="w-max h-[70%] rounded-xl border-2 border-purple-600">
+                    <div className="w-max h-full">
+                        <div className="h-[90%]">
                         <video ref={remotevideoref} className="w-max rounded-tl-xl rounded-tr-xl h-full"/>
                         </div>
-                        <div className="p-2 text-center font-semibold text-purple-600 bg-slate-300 rounded-bl-xl rounded-br-xl">Remote Feed</div>
+                        <div className="h-[10%] p-2 text-center font-semibold text-purple-600 bg-slate-300 rounded-bl-xl rounded-br-xl">Remote Feed</div>
                     </div>
                 </div>
                 <div className="bg-purple-600 w-[50px] h-[50px] p-2 rounded-full absolute right-4 bottom-4 hover:cursor-pointer" onClick={()=>{setshowmsgIcon(false)}}>
@@ -195,7 +207,7 @@ function InterviewRoom({socket}){
                     <div className="h-[85%]">
                         <div className="h-full my-2 overflow-y-auto ">
                             {
-                                (chatmessages && chatmessages.length>0)?chatmessages.map((element,idx)=><div className={`w-full flex my-1 ${(!element.mine)?"justify-start":"justify-end"}`}><div className={`w-1/2 p-2 text-wrap break-all font-semibold rounded-xl ${(!element.mine)?"bg-slate-100 text-purple-600":"bg-purple-600 text-white mr-1"}`}>
+                                (chatmessages && chatmessages.length>0)?chatmessages.map((element,idx)=><div className={`w-full flex my-1 ${(!element.mine)?"justify-start":"justify-end"}`} key={idx}><div className={`w-1/2 p-2 text-wrap break-all font-semibold rounded-xl ${(!element.mine)?"bg-slate-100 text-purple-600":"bg-purple-600 text-white mr-1"}`}>
                                     {element.message}
                                 </div></div>):<></>
                             }
