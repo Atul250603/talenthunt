@@ -78,7 +78,7 @@ function JobPage(){
             <div className="font-semibold text-purple-600">Salary</div>
             <div>{job.jobId.salary}</div>
             <div className="font-semibold text-purple-600">Job Location</div>
-            <div>{job.jobId.location}</div></div>:<div>Loading......</div>
+            <div>{job.jobId.location}</div></div>:<div className="w-full h-full flex justify-center items-center font-semibold">Loading......</div>
         }
         </div>
     )

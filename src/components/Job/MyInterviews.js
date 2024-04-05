@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import rightArrowIcon from '../../images/rightArrowIcon.svg'
-function AllInterviews(){
+function MyInterviews(){
     const [interviews,setinterviews]=useState(null);
     const {state}=useLocation();
     const navigate=useNavigate();
@@ -19,24 +19,24 @@ function AllInterviews(){
                     if(storage.user && storage.user.type==='Organizer'){
                         navigate('/org/hackathons/')
                     }
-                    else if(storage.user && storage.user.type==='Recruiter'){
-                        navigate('/recruiter/jobs/')
+                    else if(storage.user && storage.user.type==='User'){
+                        navigate('/user/projects/')
                     }
                     else{
                         if(storage.user && !storage.user.profileCompleted){
-                            navigate('/user/profile/');
+                            navigate('/recruiter/profile/');
                         }
                         else{
-                            if(state && state.interview){
-                                let interview=state.interview;
+                            if(state && state.interviews){
+                                let interview=state.interviews;
                                 for(let i=0;i<interview.length;i++){
                                     let future=new Date(interview[i].interviewdate).getTime()>new Date().getTime();
                                     interview[i]={...interview[i],future};
                                 }
-                                setinterviews(interview);
+                                setinterviews(interview)
                             }
                             else{
-                                const resp=await fetch(`http://localhost:5000/job/applied/${id}`,{
+                                const resp=await fetch(`http://localhost:5000/job/${id}/myinterviews/`,{
                                     method:"POST",
                                     mode:"cors",
                                     headers:{
@@ -49,7 +49,7 @@ function AllInterviews(){
                                     toast.success(msg.success,{
                                         toastId:"myinterviews"
                                     })
-                                    let interview=msg.job.interview;
+                                    let interview=msg.interviews;
                                 for(let i=0;i<interview.length;i++){
                                     let future=new Date(interview[i].interviewdate).getTime()>new Date().getTime();
                                     interview[i]={...interview[i],future};
@@ -103,4 +103,4 @@ function AllInterviews(){
         </div>
     )
 }
-export default AllInterviews;
+export default MyInterviews;

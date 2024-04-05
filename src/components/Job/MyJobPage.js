@@ -43,7 +43,7 @@ function MyJobPage(){
                     })
                     const msg=await resp.json();
                     if(msg && msg.success){
-                        setjob(msg.job);
+                            setjob(msg.job);
                             if(msg.job.pending && msg.job.pending.length>0)setoption('Pending')
                             else if(msg.job.shortlisted && msg.job.shortlisted.length>0)setoption("Shortlisted");
                             else setoption("Unshortlisted");
@@ -193,13 +193,20 @@ function MyJobPage(){
                 </div>
                 {(job.shortlisted && job.shortlisted.length>0 && new Date(job.jobId.appdeadline).getTime()<=new Date().getTime())?<div className="flex gap-2">
                     <div className="bg-purple-600 text-white px-2 py-1 rounded-full hover:cursor-pointer" onClick={()=>navigate(`/recruiter/assignment/${id}`)}>Take Assignment</div>
-                    <div className="bg-purple-600 text-white px-2 py-1 rounded-full hover:cursor-pointer">Schedule Interview</div>
+                    <div className="bg-purple-600 text-white px-2 py-1 rounded-full hover:cursor-pointer" onClick={()=>navigate(`/recruiter/interview/${id}`,{state:{job}})}>Schedule Interview</div>
                 </div>:<></>}
             </div>   
-            <div className="flex">
+            <div className="flex gap-2">
+                <div>
                 {
                     (job.assignments && job.assignments.length>0)?<div className="bg-purple-600 text-white px-2 py-1 rounded-full hover:cursor-pointer" onClick={()=>navigate(`/recruiter/jobs/${id}/myassignments`,{state:{assignments:job.assignments}})}>My Assignments</div>:<></>
                 }
+                </div>
+                <div>
+                {
+                    (job.interviews && job.interviews.length>0)?<div className="bg-purple-600 text-white px-2 py-1 rounded-full hover:cursor-pointer" onClick={()=>navigate(`/recruiter/jobs/${id}/myinterviews`,{state:{interviews:job.interviews}})}>My Interviews</div>:<></>
+                }
+                </div>
             </div>
             <div className="font-semibold text-purple-600">Description</div>
             <div className="break-all text-sm whitespace-pre-line">{job.jobId.description}</div>

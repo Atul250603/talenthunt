@@ -2,7 +2,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Footer from './components/Footer';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Routes,Route } from 'react-router-dom';
@@ -39,11 +39,16 @@ import JobPage from './components/User/JobPage';
 import AllAssignments from './components/User/AllAssignments';
 import MyAssignments from './components/Job/MyAssignments';
 import MyAssignmentPage from './components/Job/MyAssignmentPage';
+import InterviewForm from './components/Job/InterviewForm';
+import MyInterviews from './components/Job/MyInterviews';
+import AllInterviews from './components/User/AllInterviews';
+import InterviewRoom from './components/InterviewRoom';
 function App() {
   const [loginDisplay, setloginDisplay] = useState(false);
   const [signupDisplay, setsignupDisplay] = useState(false);
   const [allProjects,setallProjects]=useState([]);
   const [myProject,setmyProject]=useState([]);
+  const socket=useRef();
   return (
     <div className='overflow-x-hidden'>
       <ToastContainer
@@ -74,9 +79,10 @@ function App() {
               <Route exact path='applied' element={<AppliedJobs/>}/>
               <Route exact path='applied/:id' element={<JobPage/>}/>
               <Route exact path='applied/:id/assignments' element={<AllAssignments/>}/>
+              <Route exact path='applied/:id/interviews' element={<AllInterviews/>}/>
               <Route exact path='applied/:id/assignments/:id2' element={<UserAssignment/>}/>
             </Route>
-            <Route exact path="chat/:pid/:uid" element={<Chat/>}/>
+            <Route exact path="chat/:pid/:uid" element={<Chat socket={socket}/>}/>
         </Route>
         <Route exact path="/org" element={<Hackathon/>}>
           <Route exact path="profile" element={<OrganizerProfile/>}></Route>
@@ -87,12 +93,15 @@ function App() {
           <Route exact path="jobs" element={<MyJobs/>}></Route>
           <Route exact path="jobs/:id" element={<MyJobPage/>}></Route>
           <Route exact path="jobs/:id/myassignments" element={<MyAssignments/>}></Route>
+          <Route exact path="jobs/:id/myinterviews" element={<MyInterviews/>}></Route>
           <Route exact path="jobs/:id/myassignments/:id2" element={<MyAssignmentPage/>}></Route>
           <Route exact path="profile" element={<RecruiterProfile/>}></Route>
           <Route exact path="userprofile/:uid/:id" element={<UserProfile/>}></Route>
           <Route exact path="assignment/:id" element={<Assignment/>}></Route>
+          <Route exact path="interview/:id" element={<InterviewForm/>}></Route>
         </Route>
         <Route exact path="*" element={<Error404/>}/>
+        <Route exact path="/interview/:jobId/:roomId" element={<InterviewRoom  socket={socket}/>}/>
       </Routes>
     </div>
   );

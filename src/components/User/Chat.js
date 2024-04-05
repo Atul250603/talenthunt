@@ -4,13 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {io} from 'socket.io-client';
-function Chat(){
+function Chat({socket}){
     const navigate=useNavigate();
     const {pid,uid}=useParams();
     const [messages,setmessages]=useState(null);
     const [msg,setmsg]=useState('');
     const [data,setData]=useState(null);
-    const socket=useRef();
     const {state}=useLocation();
     useEffect(()=>{
         async function init(){
