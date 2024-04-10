@@ -125,6 +125,12 @@ function AllJobs(){
                     </svg>:<></>}Apply</button>
                     </div>
                 </div>
+                <div className="font-semibold text-purple-600">Profile Match Score</div>
+                <div className='mt-2 w-3/4 flex gap-2 flex-wrap'>
+                                <div className='w-[100%] h-full rounded-xl bg-slate-600'>
+                                    <div className={`h-[30px] font-semibold rounded-xl min-w-[10%] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-center p-2 flex items-center justify-center text-white`} style={{width:String(Math.round(Number(jobs[dispIdx].similarity)))+"%"}}>{(Number(jobs[dispIdx].similarity)).toFixed(2)+ " %"}</div>
+                                </div>
+                            </div>
                 <div className="font-semibold text-purple-600">Description</div>
                 <div className="break-all whitespace-pre-line">{jobs[dispIdx].description}</div>
                 <div className="font-semibold text-purple-600">Application Deadline</div>

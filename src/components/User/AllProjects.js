@@ -175,6 +175,14 @@ function AllProjects({allProjects,setallProjects}){
                                 {(element.skills && element.skills.length>0)?element.skills.map((skill,idx)=><div className='rounded-full bg-slate-600 min-w-[4%] w-auto text-center px-2 py-1 text-white text-xs' key={idx}>{skill}</div>):<>No Skills Added Yet....</>}
                             </div>
                         </div>
+                        <div className='mt-2 w-full h-max flex items-center gap-4'>
+                            <div className='text-lg flex items-center'>Profile Match Score</div>
+                            <div className='mt-2 w-3/4 flex gap-2 flex-wrap'>
+                                <div className='w-[100%] h-full rounded-xl bg-slate-600'>
+                                    <div className={`h-[30px] rounded-xl min-w-[10%] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-center p-2 flex items-center justify-center text-white`} style={{width:String(Math.round(Number(element.similarity)*100))+"%"}}>{(Number(element.similarity)*100).toFixed(2) + "%"}</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>:<></>):<div>Why Not You Post The First Project....</div>}
                 </div>
                 <div className={`w-[10%] h-full flex items-center justify-center items-center ${(disableBtn)?"disabledDiv":""}`}>
