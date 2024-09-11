@@ -27,8 +27,8 @@ function InterviewRoom({socket}){
                 let random_id=uid(32);
     
                 const mypeer=new Peer(String(random_id), {
-                    host: process.env.REACT_APP_PEER_URL,
-                    port: 9000,
+                    host: process.env.REACT_APP_BACKEND_URL,
+                    // port: 9000,
                     path: "/myapp",
                 });
                 if(!socket || !socket.current){
