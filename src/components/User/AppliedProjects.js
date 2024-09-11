@@ -24,7 +24,7 @@ function AppliedProjects(){
                             navigate('/user/profile');
                         }
                         else{
-                    const resp=await fetch(`http://localhost:5000/project/appliedProject`,{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/project/appliedProject`,{
                         method:"POST",
                         mode:"cors",
                         headers:{

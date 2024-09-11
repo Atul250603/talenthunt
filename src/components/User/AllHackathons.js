@@ -23,7 +23,7 @@ function AllHackathons(){
                             navigate('/user/profile');
                         }
                         else{
-                    const resp=await fetch('http://localhost:5000/hackathon/getallhackathons',{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/hackathon/getallhackathons`,{
                         method:"POST",
                         mode:"cors",
                         headers:{
@@ -63,7 +63,7 @@ function AllHackathons(){
             storage=await JSON.parse(storage);
             if(storage && storage.auth){
                 setshowSpinner(true);
-                const resp=await fetch(`http://localhost:5000/hackathon/applyhackathon/${hackathons[dispIdx]._id}`,{
+                const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/hackathon/applyhackathon/${hackathons[dispIdx]._id}`,{
                     method:"POST",
                     mode:"cors",
                     headers:{

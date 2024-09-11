@@ -33,7 +33,7 @@ function MyJobPage(){
                             navigate('/recruiter/profile/');
                         }
                         else{
-                    const resp=await fetch(`http://localhost:5000/job/myjob/${id}`,{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/myjob/${id}`,{
                         method:"POST",
                         mode:"cors",
                         headers:{
@@ -84,7 +84,7 @@ function MyJobPage(){
                 shortlistedcpy.push(element);
                 let storage=localStorage.getItem('storage');
                 storage=await JSON.parse(storage);
-                const resp=await fetch(`http://localhost:5000/job/shortlist/${id}/${element.userInfo.userId}`,{
+                const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/shortlist/${id}/${element.userInfo.userId}`,{
                     method:"POST",
                     mode:"cors",
                     headers:{
@@ -123,7 +123,7 @@ function MyJobPage(){
                     pendingcpy.splice(idx,1);
                     let nonshortlistedcpy=[...job.nonshortlisted];
                     nonshortlistedcpy.push(element);
-                    const resp=await fetch(`http://localhost:5000/job/unshortlist/${id}/${element.userInfo.userId}`,{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/unshortlist/${id}/${element.userInfo.userId}`,{
                         method:"POST",
                         mode:"cors",
                         headers:{
@@ -154,7 +154,7 @@ function MyJobPage(){
                 shortlistedcpy.splice(idx,1);
                 let nonshortlistedcpy=[...job.nonshortlisted];
                 nonshortlistedcpy.push(element);
-                const resp=await fetch(`http://localhost:5000/job/unshortlist/${id}/${element.userInfo.userId}`,{
+                const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/unshortlist/${id}/${element.userInfo.userId}`,{
                     method:"POST",
                     mode:"cors",
                     headers:{

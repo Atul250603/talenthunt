@@ -32,7 +32,7 @@ function MyAssignmentPage(){
                             navigate('/user/profile/');
                         }
                         else{
-                    const resp=await fetch(`http://localhost:5000/job/${id}/myassignments/${id2}`,{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/${id}/myassignments/${id2}`,{
                         method:"POST",
                         mode:"cors",
                         headers:{

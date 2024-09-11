@@ -20,7 +20,7 @@ function Questions({setdisabled,setdata}){
                         navigate('/org/hackathons/');
                     }
                     else{
-                        const resp=await fetch('http://localhost:5000/job/questions',{
+                        const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/questions`,{
                             method:"POST",
                             mode:"cors",
                             headers:{

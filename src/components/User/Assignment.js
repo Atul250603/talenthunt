@@ -32,7 +32,7 @@ function Assignment(){
                             navigate('/user/profile');
                         }
                         else{
-                    const resp=await fetch(`http://localhost:5000/job/applied/${id}/assignments/${id2}`,{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/applied/${id}/assignments/${id2}`,{
                         method:"POST",
                         mode:"cors",
                         headers:{
@@ -43,7 +43,7 @@ function Assignment(){
                     const msg=await resp.json();
                     if(msg && msg.success){
                         let assig=await JSON.parse(atob(msg.assignment));
-                        let uid=storage.user._id;
+                        let uid=storage.user_info.userId;
                         let solution=null;
                         if(assig.solutions && assig.solutions.length>0){
                             solution=assig.solutions.find((element)=>element.userId===uid);
@@ -88,14 +88,18 @@ function Assignment(){
         init();
     },[])
     useEffect(()=>{
+        let interval;
         function init(){
         try{
             if(status===0 && assignment){
+                clearInterval(interval);
                 let newassignendtime=new Date((new Date(assignment.assignmentdate).getTime())+(Number(assignment.assignmentduration*60*60*1000))).getTime();
                 setassignendtime(newassignendtime);
+                return;
             }
-            if(status===1 && assignment){
-                setInterval(()=>{
+            
+            else if(status===1 && assignment){
+                interval=setInterval(()=>{
                     let now=new Date().getTime();
                     let t=new Date(assignment.assignmentdate).getTime()-now;
                     if(t<=0){
@@ -125,6 +129,7 @@ function Assignment(){
                 (assignment)?<div>
                     {
                         (status===0)?<div className="relative">
+                            
                             <div className="font-semibold text-xl text-purple-600">{assignment.assignmentname}</div>
                             <div className="flex gap-4 flex-wrap">
                             <div className="font-semibold my-3"><span className=" text-purple-600">Held On - </span>{new Date(assignment.assignmentdate).toLocaleString()}</div>
@@ -132,10 +137,12 @@ function Assignment(){
                             <div className="font-semibold my-3"><span className=" text-purple-600">Marks Per Question - </span>{assignment.assignmentmark}</div>
                             <div className="font-semibold my-3"><span className=" text-purple-600">Negative Marking - </span>{(assignment.negativemarking)?"Yes":"No"}</div>
                             </div>
-                            {
-                                (sol && assignendtime<(new Date().getTime()))?<div><Analysis assignment={assignment} sol={sol}/></div>:(assignendtime>=(new Date().getTime()))?<div className="absolute right-0 top-0 bg-purple-600 px-2 py-2 pl-4 rounded-l-full text-white font-semibold">Assignment Not Ended Yet</div>:<div className="absolute right-0 top-0 bg-purple-600 px-2 py-2 pl-4 rounded-l-full text-white font-semibold">Not Attempted</div>
-                            }
-                        </div>:(status===1)?<div>
+                          
+                                {
+
+                                    (assignment && assignendtime<(new Date().getTime()))?<div><Analysis assignment={assignment} sol={sol}/></div>:(assignendtime>=(new Date().getTime()))?<div className="absolute right-0 top-0 bg-purple-600 px-2 py-2 pl-4 rounded-l-full text-white font-semibold">Assignment Not Ended Yet</div>:<div className="absolute right-0 top-0 bg-purple-600 px-2 py-2 pl-4 rounded-l-full text-white font-semibold">Not Attempted</div>
+                                }
+                             </div>:(status===1)?<div>
                             <div>
                         <div className="font-semibold text-2xl my-2 text-purple-600">{assignment.assignmentname}</div>
                         <div className="flex gap-4 flex-wrap">

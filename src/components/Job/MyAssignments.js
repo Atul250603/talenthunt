@@ -31,7 +31,7 @@ function MyAssignments(){
                                 setassignments(state.assignments)
                             }
                             else{
-                                const resp=await fetch(`http://localhost:5000/job/${id}/myassignments/`,{
+                                const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/${id}/myassignments/`,{
                                     method:"POST",
                                     mode:"cors",
                                     headers:{

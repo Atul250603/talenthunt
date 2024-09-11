@@ -28,7 +28,7 @@ function HackathonPage(){
                             navigate('/user/profile');
                         }
                         else{
-                    const resp=await fetch(`http://localhost:5000/hackathon/getHackathon/${id}`,{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/hackathon/getHackathon/${id}`,{
                         method:"POST",
                         mode:"cors",
                         headers:{
@@ -124,7 +124,7 @@ function HackathonPage(){
             if(!locstorage || !locstorage.auth){
                 navigate('/');
             }
-            const resp=await fetch(`http://localhost:5000/hackathon/submitSolution/${id}`,{
+            const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/hackathon/submitSolution/${id}`,{
                 method:"POST",
                 mode:"cors",
                 headers:{

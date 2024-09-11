@@ -27,7 +27,7 @@ function Login({loginDisplay,setloginDisplay}){
         try{
         if(validData()){
             setshowSpinner(true);
-            let resp=await fetch('http://localhost:5000/auth/login',{
+            let resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`,{
                 method:"POST",
                 mode:"cors",
                 headers:{

@@ -68,7 +68,7 @@ function Questionnaire({id,id2,assignment,setstatus,sol,setsol}){
                 solutions,
                 totalmarks
             }
-            const resp=await fetch(`http://localhost:5000/job/applied/${id}/assignments/${id2}/submission`,{
+            const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/applied/${id}/assignments/${id2}/submission`,{
                 method:"POST",
                 mode:"cors",
                 headers:{
@@ -79,8 +79,8 @@ function Questionnaire({id,id2,assignment,setstatus,sol,setsol}){
             });
             const msg=await resp.json();
             if(msg && msg.success){
-                setsol(data);
                 setstatus(0);
+                setsol(data);
                 setshowSpinner(false);
             }
             else if(msg && msg.error){

@@ -25,13 +25,14 @@ function InterviewRoom({socket}){
             storage=await JSON.parse(storage);
             if(storage && storage.auth && storage.user && storage.user.profileCompleted && storage.user.type!=='Organizer'){
                 let random_id=uid(32);
+    
                 const mypeer=new Peer(String(random_id), {
-                    host: "localhost",
+                    host: process.env.REACT_APP_PEER_URL,
                     port: 9000,
                     path: "/myapp",
                 });
                 if(!socket || !socket.current){
-                    socket.current=io("http://localhost:5000");
+                    socket.current=io(process.env.REACT_APP_BACKEND_URL);
                 }
                 mypeer.on('open',(id)=>{
                     setmypeerid(id);

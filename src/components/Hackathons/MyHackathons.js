@@ -28,7 +28,7 @@ function MyHackathon(){
                             navigate('/org/profile/');
                         }
                         else{
-                    const resp=await fetch("http://localhost:5000/hackathon/gethackathon",{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/hackathon/gethackathon`,{
                         method:"POST",
                         mode:"cors",
                         headers:{

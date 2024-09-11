@@ -28,7 +28,7 @@ function UserProfile(){
                     }
                     else{
                 if(!state || !state.userinfo){
-                    const resp=await fetch(`http://localhost:5000/job/getprofile/${uid}/${id}`,{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/getprofile/${uid}/${id}`,{
                         method:"POST",
                         mode:"cors",
                         headers:{

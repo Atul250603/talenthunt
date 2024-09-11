@@ -25,7 +25,7 @@ function RequestPage(){
                     }
                     else{
                 if(!state || !state.userinfo){
-                    const resp=await fetch(`http://localhost:5000/project/getprofile/${uid}/p/${id}`,{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/project/getprofile/${uid}/p/${id}`,{
                         method:"POST",
                         mode:"cors",
                         headers:{
@@ -69,7 +69,7 @@ function RequestPage(){
             }
             storage=await JSON.parse(storage);
             if(storage && storage.auth){
-                const resp=await fetch(`http://localhost:5000/project/rejectuser/${id}/u/${uid}`,{
+                const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/project/rejectuser/${id}/u/${uid}`,{
                     method:"POST",
                     mode:"cors",
                     headers:{
@@ -103,7 +103,7 @@ function RequestPage(){
             }
             storage=await JSON.parse(storage);
             if(storage && storage.auth){
-                const resp=await fetch(`http://localhost:5000/project/acceptuser/${id}/u/${uid}`,{
+                const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/project/acceptuser/${id}/u/${uid}`,{
                     method:"POST",
                     mode:"cors",
                     headers:{

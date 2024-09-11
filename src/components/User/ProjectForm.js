@@ -22,7 +22,7 @@ function ProjectForm({myProject,setmyProject,setshowProjectForm}){
                             setCreator(name);
                         }
                         else{
-                            let resp=await fetch('http://localhost:5000/user/getprofile',{
+                            let resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/getprofile`,{
                                 method:"POST",
                                 mode:"cors",
                                 headers:{
@@ -101,7 +101,7 @@ function ProjectForm({myProject,setmyProject,setshowProjectForm}){
             }
             let storage=localStorage.getItem('storage');
             storage=await JSON.parse(storage);
-            let resp=await fetch("http://localhost:5000/project/postproject",{
+            let resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/project/postproject`,{
                 method:"POST",
                 mode: "cors",
                 headers:{

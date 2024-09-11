@@ -46,7 +46,7 @@ function Profile(){
                             setsocials(storage.user_info.socials);
                         }
                         else{
-                            let resp=await fetch('http://localhost:5000/user/getprofile',{
+                            let resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/getprofile`,{
                                 method:"POST",
                                 mode:"cors",
                                 headers:{

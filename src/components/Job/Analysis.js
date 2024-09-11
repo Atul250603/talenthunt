@@ -51,7 +51,7 @@ function Analysis({solutions,marks,queststats,setmarks,setqueststats,setsolution
                 let tmpsolution=[...solutions];
                 tmpsolution.splice(idx3,1);
                 let source=1;
-                const resp=await fetch(`http://localhost:5000/job/unshortlist/${id}/${uid}`,{
+                const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/unshortlist/${id}/${uid}`,{
                     method:"POST",
                     mode:"cors",
                     headers:{

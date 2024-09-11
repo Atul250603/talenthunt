@@ -35,7 +35,7 @@ function MyHackathonPage(){
                             navigate('/org/profile/');
                         }
                         else{
-                    const resp=await fetch(`http://localhost:5000/hackathon/myhackathon/${id}`,{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/hackathon/myhackathon/${id}`,{
                         method:"POST",
                         mode:"cors",
                         headers:{
@@ -101,7 +101,7 @@ function MyHackathonPage(){
             }
             storage=JSON.parse(storage);
             if(storage && storage.auth && user && allotedPrize){
-                const resp=await fetch(`http://localhost:5000/hackathon/handoverprize/${id}`,{
+                const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/hackathon/handoverprize/${id}`,{
                     method:"POST",
                     mode:"cors",
                     headers:{

@@ -23,7 +23,7 @@ function AppliedHackathons(){
                             navigate('/user/profile');
                         }
                         else{
-                    const resp=await fetch('http://localhost:5000/hackathon/applied',{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/hackathon/applied`,{
                         method:"POST",
                         mode:"cors",
                         headers:{

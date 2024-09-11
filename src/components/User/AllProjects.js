@@ -24,7 +24,7 @@ function AllProjects({allProjects,setallProjects}){
                             navigate('/user/profile');
                         }
                         else{
-                    const resp=await fetch("http://localhost:5000/project/allprojects",{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/project/allprojects`,{
                         method:"POST",
                         mode:"cors",
                         headers:{
@@ -66,7 +66,7 @@ function AllProjects({allProjects,setallProjects}){
                 storage=JSON.parse(storage);
                 let idx=allProjects.length-1;
                 if(storage && storage.auth){
-                    const resp=await fetch(`http://localhost:5000/project/applyproject/${allProjects[idx]._id}`,{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/project/applyproject/${allProjects[idx]._id}`,{
                         method:"POST",
                         mode:"cors",
                         headers:{
@@ -113,7 +113,7 @@ function AllProjects({allProjects,setallProjects}){
                 storage=JSON.parse(storage);
                 let idx=allProjects.length-1;
                 if(storage && storage.auth){
-                    const resp=await fetch(`http://localhost:5000/project/rejectproject/${allProjects[idx]._id}`,{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/project/rejectproject/${allProjects[idx]._id}`,{
                         method:"POST",
                         mode:"cors",
                         headers:{

@@ -24,7 +24,7 @@ function JobForm({myProject,setmyProject,setshowJobForm}){
                             setOrganizer(name);
                         }
                         else{
-                            let resp=await fetch('http://localhost:5000/user/getprofile',{
+                            let resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/getprofile`,{
                                 method:"POST",
                                 mode:"cors",
                                 headers:{
@@ -119,7 +119,7 @@ function JobForm({myProject,setmyProject,setshowJobForm}){
             }
             let storage=localStorage.getItem('storage');
             storage=JSON.parse(storage);
-            let resp=await fetch("http://localhost:5000/job/createjob",{
+            let resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/createjob`,{
                 method:"POST",
                 mode: "cors",
                 headers:{

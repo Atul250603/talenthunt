@@ -84,7 +84,7 @@ function EditProfile({seteditProfile,setidentifier,data,setData,socials}){
                     return;
                 }
             }
-           let resp=await fetch('http://localhost:5000/auth/emailverify',{
+           let resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/emailverify`,{
             method:"POST",
             mode:"cors",
             headers:{
@@ -203,7 +203,7 @@ function EditProfile({seteditProfile,setidentifier,data,setData,socials}){
                 }
                 let localstorage=localStorage.getItem('storage');
                 localstorage=JSON.parse(localstorage);
-                let resp=await fetch('http://localhost:5000/user/editprofile',{
+                let resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/editprofile`,{
                     method:"POST",
                     mode:"cors",
                     headers:{

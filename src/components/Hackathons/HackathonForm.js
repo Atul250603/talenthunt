@@ -31,7 +31,7 @@ function HackathonForm({myProject,setmyProject,setshowProjectForm}){
                             setOrganizer(name);
                         }
                         else{
-                            let resp=await fetch('http://localhost:5000/user/getprofile',{
+                            let resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/getprofile`,{
                                 method:"POST",
                                 mode:"cors",
                                 headers:{
@@ -181,7 +181,7 @@ function HackathonForm({myProject,setmyProject,setshowProjectForm}){
             }
             let storage=localStorage.getItem('storage');
             storage=JSON.parse(storage);
-            let resp=await fetch("http://localhost:5000/hackathon/createhackathon",{
+            let resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/hackathon/createhackathon`,{
                 method:"POST",
                 mode: "cors",
                 headers:{

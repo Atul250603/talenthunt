@@ -25,7 +25,7 @@ function ProjectPage(){
                     }
                     else{
                 if(!state || !state.myproject){
-                    const resp=await fetch(`http://localhost:5000/project/myproject/${id}`,{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/project/myproject/${id}`,{
                         method:"POST",
                         mode:"cors",
                         headers:{

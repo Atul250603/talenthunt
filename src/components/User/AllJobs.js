@@ -26,7 +26,7 @@ function AllJobs(){
                             navigate('/user/profile');
                         }
                         else{
-                    const resp=await fetch('http://localhost:5000/job/getalljobs',{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/getalljobs`,{
                         method:"POST",
                         mode:"cors",
                         headers:{
@@ -66,7 +66,7 @@ function AllJobs(){
             storage=await JSON.parse(storage);
             if(storage && storage.auth){
                 setshowSpinner(true);
-                const resp=await fetch(`http://localhost:5000/job/applyjob/${jobs[dispIdx]._id}`,{
+                const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/applyjob/${jobs[dispIdx]._id}`,{
                     method:"POST",
                     mode:"cors",
                     headers:{
@@ -140,8 +140,8 @@ function AllJobs(){
                 <div className="font-semibold text-purple-600">Job Location</div>
                 <div>{jobs[dispIdx].location}</div>
                 
-            </div>:<></>}
-        </div>:<div className="w-full h-full flex items-center justify-center heading font-semibold">No Job Is Live</div>}
+            </div>:<div className="w-full h-full flex items-center justify-center heading font-semibold">No Job Is Live</div>}
+        </div>:<div className="w-full h-full flex items-center justify-center heading font-semibold">Loading...</div>}
         </div>
     )
 }

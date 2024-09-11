@@ -21,7 +21,7 @@ function MyProjects({myProject,setmyProject}){
                         navigate('/user/profile');
                     }
                     else{
-                const resp=await fetch("http://localhost:5000/project/myprojects",{
+                const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/project/myprojects`,{
                     method:"POST",
                     mode:"cors",
                     headers:{

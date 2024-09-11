@@ -27,7 +27,7 @@ function JobPage(){
                         }
                         else{
             
-                    const resp=await fetch(`http://localhost:5000/job/applied/${id}`,{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/applied/${id}`,{
                         method:"POST",
                         mode:"cors",
                         headers:{

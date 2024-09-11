@@ -28,7 +28,7 @@ function MyJobs(){
                             navigate('/recruiter/profile/');
                         }
                         else{
-                    const resp=await fetch("http://localhost:5000/job/getjobs",{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/getjobs`,{
                         method:"POST",
                         mode:"cors",
                         headers:{

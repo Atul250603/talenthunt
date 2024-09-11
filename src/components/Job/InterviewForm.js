@@ -38,7 +38,7 @@ function InterviewForm(){
                                 setcurrjob(state.job);
                             }
                             else{
-                    const resp=await fetch(`http://localhost:5000/job/myjob/${id}`,{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/myjob/${id}`,{
                         method:"POST",
                         mode:"cors",
                         headers:{
@@ -119,7 +119,7 @@ function InterviewForm(){
                 let storage=localStorage.getItem('storage');
                 storage=await JSON.parse(storage);
                 if(storage && storage.auth){
-                    let resp=await fetch(`http://localhost:5000/job/scheduleinterview/${id}`,{
+                    let resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/scheduleinterview/${id}`,{
                     method:"post",
                     mode:"cors",
                     headers:{

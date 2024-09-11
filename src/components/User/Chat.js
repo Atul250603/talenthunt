@@ -29,7 +29,7 @@ function Chat({socket}){
                     }
                     else{
                     if(!state || !state.userinfo){
-                        const resp1=await fetch(`http://localhost:5000/project/getprofile/${uid}/p/${pid}`,{
+                        const resp1=await fetch(`${process.env.REACT_APP_BACKEND_URL}/project/getprofile/${uid}/p/${pid}`,{
                             method:"POST",
                             mode:"cors",
                             headers:{
@@ -51,7 +51,7 @@ function Chat({socket}){
                     else{
                         setData(state.userinfo);
                     }
-                    const resp=await fetch(`http://localhost:5000/message/allmsg`,{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/message/allmsg`,{
                         method:"POST",
                         mode:"cors",
                         headers:{
@@ -66,7 +66,7 @@ function Chat({socket}){
                     const respmsg=await resp.json();
                     if(respmsg && respmsg.success){
                         if(!socket || !socket.current){
-                            socket.current=io("http://localhost:5000");
+                            socket.current=io(process.env.REACT_APP_BACKEND_URL);
                             socket.current.emit('adduser',respmsg.messages.uid); 
                         }
                         setmessages(respmsg.messages.messages);
@@ -121,7 +121,7 @@ function Chat({socket}){
                         to:uid,
                         message:msg
                     })
-                    const resp=await fetch(`http://localhost:5000/message/send`,{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/message/send`,{
                         method:"POST",
                         mode:"cors",
                         headers:{

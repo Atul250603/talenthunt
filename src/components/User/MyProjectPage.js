@@ -30,7 +30,7 @@ function MyProjectPage(){
                     }
                     else{
                 if(!state || !state.myproject){
-                    const resp=await fetch(`http://localhost:5000/project/myproject/${id}`,{
+                    const resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/project/myproject/${id}`,{
                         method:"POST",
                         mode:"cors",
                         headers:{
@@ -52,7 +52,7 @@ function MyProjectPage(){
                 else{
                     setmyProject(state.myproject);
                 }
-                const resp1=await fetch(`http://localhost:5000/project/pending/${id}`,{
+                const resp1=await fetch(`${process.env.REACT_APP_BACKEND_URL}/project/pending/${id}`,{
                     method:"POST",
                     mode:"cors",
                     headers:{
@@ -61,7 +61,7 @@ function MyProjectPage(){
                     }
                 })
                 const msg1=await resp1.json();
-                const resp2=await fetch(`http://localhost:5000/project/accepted/${id}`,{
+                const resp2=await fetch(`${process.env.REACT_APP_BACKEND_URL}/project/accepted/${id}`,{
                     method:"POST",
                     mode:"cors",
                     headers:{

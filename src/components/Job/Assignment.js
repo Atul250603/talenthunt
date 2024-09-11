@@ -18,7 +18,7 @@ function Assignment(){
             let storage=localStorage.getItem('storage');
             storage=await JSON.parse(storage);
             if(storage && storage.auth){
-                let resp=await fetch(`http://localhost:5000/job/createassignment/${id}`,{
+                let resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/job/createassignment/${id}`,{
                 method:"post",
                 mode:"cors",
                 headers:{

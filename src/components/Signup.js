@@ -44,7 +44,7 @@ function Signup({signupDisplay,setsignupDisplay,setloginDisplay}){
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if((email.trim()).match(mailformat))
         {
-           let resp=await fetch('http://localhost:5000/auth/emailverify',{
+           let resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/emailverify`,{
             method:"POST",
             mode:"cors",
             headers:{
@@ -92,7 +92,7 @@ function Signup({signupDisplay,setsignupDisplay,setloginDisplay}){
         try{
         if(validData()){
             setShowSpinner(true);
-            let resp=await fetch("http://localhost:5000/auth/signup",{
+            let resp=await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/signup`,{
                 method:"POST",
                 mode:"cors",
                 headers:{
