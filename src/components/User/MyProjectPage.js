@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 function MyProjectPage(){
     const params=useParams();
     const navigate=useNavigate();
+    const [loading, setLoading] = useState(false);
     const id=params.id;
     const [btnClick,setbtnClick]=useState(false);
     const [pending,setPending]=useState([]);
@@ -15,6 +16,7 @@ function MyProjectPage(){
     useEffect(()=>{
         async function init(){
             try{
+                setLoading(true);
             let storage=localStorage.getItem('storage');
             if(!storage){
                 navigate('/');
@@ -93,13 +95,15 @@ function MyProjectPage(){
         catch(error){
             toast.error(error);
             navigate('/user/projects/myprojects');
+        } finally {
+            setLoading(false);
         }
         }
         init();
     },[])
     return(
         <div className="heading h-full w-full mt-3 px-3 py-2">
-          {(myProject)?<><div className='flex gap-2 items-center'><div className="text-purple-600 font-semibold text-2xl">{myProject.projectTitle}</div> {(myProject.sameOrg)?<div className='rounded-full bg-slate-600 text-center px-2 py-1 text-white text-xs'>Same Organization Only</div>:<></>}</div>
+          {(!loading && myProject)?<><div className='flex gap-2 items-center'><div className="text-purple-600 font-semibold text-2xl">{myProject.projectTitle}</div> {(myProject.sameOrg)?<div className='rounded-full bg-slate-600 text-center px-2 py-1 text-white text-xs'>Same Organization Only</div>:<></>}</div>
            <div className="my-3">
                 <div className="text-purple-600 font-medium text-lg">Description</div>
                 <div className="text-sm break-all whitespace-pre-line">{myProject.description}</div>
@@ -130,7 +134,7 @@ function MyProjectPage(){
                         <div className='h-full flex items-center blackSvg'><img src={rightArrowIcon} alt="icon"/></div>
                     </div>):(btnClick)?<div className='h-full w-full flex items-center justify-center'>No Accepted Requests Yet</div>:<div className='h-full w-full items-center justify-center flex'>No Data Available</div>}
                 </div>
-           </div></>:<div>Loading......</div>}
+           </div></>:<div className='flex items-center h-full justify-center font-semibold'>{loading ? "Loading......" : "No Data Available"}</div>}
         </div>
     )
 }

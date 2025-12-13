@@ -1,12 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import rightArrowIcon from '../../images/rightArrowIcon.svg';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 function MyProjects({myProject,setmyProject}){
     const navigate=useNavigate();
+    const [loading, setLoading] = useState(false);
     useEffect(()=>{
         async function init(){
             try{
+                setLoading(true);
             let storage=localStorage.getItem('storage');
             if(!storage){
                 navigate('/');
@@ -49,6 +51,8 @@ function MyProjects({myProject,setmyProject}){
         catch(error){
             toast.error(error);
             navigate('/user/projects/myprojects');
+        } finally {
+            setLoading(false);
         }
         }
 
@@ -56,12 +60,12 @@ function MyProjects({myProject,setmyProject}){
     },[])
     return(
         <div className="heading h-full w-full mt-3 px-3 py-3">
-            {(myProject && myProject.length>0)?myProject.map((element,idx)=><div className='bg-slate-600 rounded-lg px-4 py-3 my-2 flex justify-between items-center text-white hover:cursor-pointer' key={idx} onClick={()=>navigate(`/user/projects/myprojects/${element._id}`,{state:{myproject:element}})}>
+            {(!loading && myProject && myProject.length>0)?myProject.map((element,idx)=><div className='bg-slate-600 rounded-lg px-4 py-3 my-2 flex justify-between items-center text-white hover:cursor-pointer' key={idx} onClick={()=>navigate(`/user/projects/myprojects/${element._id}`,{state:{myproject:element}})}>
                 <div className='text-xl font-semibold'>{element.projectTitle}</div>
                 <div>
                     <img src={rightArrowIcon} alt="icon"/>
                 </div>
-            </div>):<div className='flex items-center h-full justify-center font-semibold'>Why Don't You List One Project.....</div>}
+            </div>):<div className='flex items-center h-full justify-center font-semibold'>{loading ? "Loading....." : "Why Don't You List One Project....."}</div>}
         </div>
     )
 }

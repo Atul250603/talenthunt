@@ -5,11 +5,13 @@ import rightArrowIcon from '../../images/rightArrowIcon.svg'
 function AppliedProjects(){
     const [projects,setprojects]=useState(null);
     const [type,settype]=useState(0);
+    const [loading, setLoading] = useState(false);
     const navigate=useNavigate();
     const {state}=useLocation();
     useEffect(()=>{
         async function init(){
             try{
+                setLoading(true);
                 let storage=localStorage.getItem('storage');
                 if(!storage){
                     navigate('/');
@@ -49,6 +51,8 @@ function AppliedProjects(){
             catch(error){
                 toast.error(error);
                 navigate('/user/projects/');
+            } finally {
+                setLoading(false);
             }
         }
         init();
@@ -60,7 +64,7 @@ function AppliedProjects(){
                 <div className={`w-1/3 px-2 py-2 text-center border-2 border-blue-600  border-l-0 border-r-0 ${(type===1)?'bg-blue-600 text-white shadow-inner shadow-blue-900':'text-blue-600'} hover:cursor-pointer`} onClick={()=>settype(1)}>Pending</div>
                 <div className={`w-1/3 px-2 py-2 text-center border-2 border-green-600 rounded-r-full ${(type===2)?'bg-green-600 text-white shadow-inner shadow-green-900 ':'text-green-600'} hover:cursor-pointer`} onClick={()=>settype(2)}>Accepted</div>
             </div>
-            {(projects && projects.length>0)?<div className="w-full my-3">
+            {(!loading && projects && projects.length>0)?<div className="w-full my-3">
                 {
                     (type===0)?projects.map((element,idx)=>(element.rejected)?<div className='bg-slate-600 rounded-lg px-4 py-3 my-2 flex justify-between items-center text-white hover:cursor-pointer' key={idx} onClick={()=>navigate(`/user/projects/projectpage/${element.projectId}`,{state:{...state,myproject:null}})}>
                     <div className='text-xl font-semibold'>{element.projectTitle}</div>
@@ -79,7 +83,7 @@ function AppliedProjects(){
                         </div>
                     </div>:<></>)
                 }
-            </div>:<div className="text-center h-full w-full flex items-center justify-center font-semibold"><div>Apply For Some Projects....</div></div>}
+            </div>:<div className="text-center h-full w-full flex items-center justify-center font-semibold"><div>{loading ? "Loading....." : "Apply For Some Projects...."}</div></div>}
         </div>
     )
 }

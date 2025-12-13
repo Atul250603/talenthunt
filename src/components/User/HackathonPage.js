@@ -11,9 +11,12 @@ function HackathonPage(){
     const navigate=useNavigate();
     const {id}=useParams();
     const [link,setLink]=useState(null);
+    const [loading, setLoading] = useState(false);
+
     useEffect(()=>{
         async function init(){
             try{
+                setLoading(true);
                 let storage=localStorage.getItem('storage');
                 if(!storage){
                     navigate('/');
@@ -59,6 +62,8 @@ function HackathonPage(){
             catch(error){
                 toast.error(error);
                 navigate('/user/hackathons/applied');
+            } finally {
+                setLoading(false);
             }
         }
         init();
@@ -168,7 +173,7 @@ function HackathonPage(){
     }
     return(
         <div className="w-full h-full heading px-2 py-2 mb-4 pr-0">
-           {(hackathon)?<div className="w-full h-full px-2 overflow-y-auto pb-2 relative">
+           {(!loading && hackathon)?<div className="w-full h-full px-2 overflow-y-auto pb-2 relative">
                 {
                     (hackathon.submissionStatus && hackathon.prize)?<div className="flex items-center gap-1 bg-purple-600 px-2 py-1 rounded-tl-full rounded-bl-full text-white font-semibold absolute top-0 right-0 shadow-xl">
                     <div><img src={trophyIcon} alt="icon"/></div>
@@ -226,7 +231,7 @@ function HackathonPage(){
                         <div className="text-sm break-all">{element.prizeDescription}</div>
                     </div>)}
                 </div>
-           </div>:<div className="flex items-center justify-center font-semibold">Loading....</div>}
+           </div>:<div className="w-full h-full flex items-center justify-center font-semibold">{loading ? "Loading...." : "No Hackathon Available"}</div>}
         </div>
     )
 }

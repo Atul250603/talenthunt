@@ -11,9 +11,11 @@ function AllAssignments(){
     const {id}=useParams();
     const [selected,setselected]=useState();
     const [option,setoption]=useState("upcoming")
+    const [loading, setLoading] = useState(false);
     useEffect(()=>{
         async function init(){
             try{
+                setLoading(true);
                 let storage=localStorage.getItem('storage');
                 if(!storage){
                     navigate('/');
@@ -96,6 +98,8 @@ function AllAssignments(){
             }
             catch(error){
                 toast.error(error);
+            } finally {
+              setLoading(false);
             }
         }
         init();
@@ -115,7 +119,7 @@ function AllAssignments(){
                     </div>
                     <div>
                         {
-                            (option==="upcoming")?(upcomingassignments && upcomingassignments.length>0)?upcomingassignments.map((element,idx)=><div className='bg-slate-600 rounded-lg px-4 py-3 my-2 flex justify-between items-center text-white heading hover:cursor-pointer' key={idx} onClick={()=>{navigate(`/user/jobs/applied/${id}/assignments/${element.assignmentId}`)}}>
+                            (!loading) ? (option==="upcoming")?(upcomingassignments && upcomingassignments.length>0)?upcomingassignments.map((element,idx)=><div className='bg-slate-600 rounded-lg px-4 py-3 my-2 flex justify-between items-center text-white heading hover:cursor-pointer' key={idx} onClick={()=>{navigate(`/user/jobs/applied/${id}/assignments/${element.assignmentId}`)}}>
                                 <div className='text-xl font-semibold'>{element.assignmentname}</div>
                                 <div>
                                     <img src={rightArrowIcon} alt="icon"/>
@@ -126,6 +130,7 @@ function AllAssignments(){
                                     <img src={rightArrowIcon} alt="icon"/>
                                 </div>
                             </div>):<div className="font-semibold text-center">No Past Assignments</div>
+                            : <div className="w-full h-full flex justify-center items-center font-semibold">Loading......</div>
                         }
                     </div>
                 </div>

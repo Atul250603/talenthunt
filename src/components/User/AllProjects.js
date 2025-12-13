@@ -6,10 +6,12 @@ import { NavLink, useNavigate } from 'react-router-dom';
 function AllProjects({allProjects,setallProjects}){
     const [swipe, setSwipe] = useState(2);
     const [disableBtn,setdisableBtn]=useState(false);
+    const [loading, setLoading] = useState(false);
     const navigate=useNavigate(); 
     useEffect(()=>{
         async function init(){
             try{
+                setLoading(true);
                 let storage=localStorage.getItem('storage');
                 if(!storage){
                     navigate('/');
@@ -52,6 +54,8 @@ function AllProjects({allProjects,setallProjects}){
             catch(error){
                 toast.error(error);
                 navigate('/user/projects/');
+            } finally {
+                setLoading(false);
             }
         }
         init();
@@ -159,7 +163,7 @@ function AllProjects({allProjects,setallProjects}){
                     </div>
                 </div>
                 <div className="w-[80%] h-full font-semibold flex items-center justify-center relative">
-                    {(allProjects && allProjects.length>0)?allProjects.map((element,idx)=>(idx===allProjects.length-1)?<div className={`w-full h-max bg-gradient-to-r from-purple-100 to-purple-300 rounded-xl px-3 py-3 text-black absolute ${(idx===(allProjects.length-1))?(swipe===0)?'slideLeft':(swipe===1)?'slideRight':'':''}`}key={idx}>
+                    {(!loading && allProjects && allProjects.length>0)?allProjects.map((element,idx)=>(idx===allProjects.length-1)?<div className={`w-full h-max bg-gradient-to-r from-purple-100 to-purple-300 rounded-xl px-3 py-3 text-black absolute ${(idx===(allProjects.length-1))?(swipe===0)?'slideLeft':(swipe===1)?'slideRight':'':''}`}key={idx}>
                         <div className='text-2xl '>{element.projectTitle}</div>
                         <div className='text-sm mt-1'>By {element.creator}</div>
                         {(element.sameOrg)?<div className='rounded-full bg-slate-600 text-center px-2 py-1 text-white text-xs w-max mt-2'>Same Organization Only</div>:<></>}
@@ -183,7 +187,7 @@ function AllProjects({allProjects,setallProjects}){
                                 </div>
                             </div>
                         </div>
-                    </div>:<></>):<div>Why Not You Post The First Project....</div>}
+                    </div>:<></>):<div>{loading ? "Loading....." : "Why Not You Post The First Project...."}</div>}
                 </div>
                 <div className={`w-[10%] h-full flex items-center justify-center items-center ${(disableBtn)?"disabledDiv":""}`}>
                     <div className='w-[50%] hover:cursor-pointer' onClick={()=>{applyProject()}}>

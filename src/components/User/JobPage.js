@@ -3,12 +3,14 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 function JobPage(){
     const [job,setjob]=useState(null);
+    const [loading, setLoading] = useState(false);
     const{id}=useParams();
     const navigate=useNavigate();
     
     useEffect(()=>{
         async function init(){
             try{
+                setLoading(true);
                 let storage=localStorage.getItem('storage');
                 if(!storage){
                     navigate('/');
@@ -54,13 +56,15 @@ function JobPage(){
             }
             catch(error){
                 toast.error(error);
+            } finally {
+                setLoading(false);
             }
         }
         init();
     },[])
     return(
         <div className="w-full h-full heading px-4 overflow-y-auto relative">
-            {(job)?<div className="py-2 "><div>
+            {(!loading && job)?<div className="py-2 "><div>
                 <div className="flex gap-3 items-center">
                 <div className="font-semibold text-xl text-purple-600">{job.jobId.jobTitle}</div>
                 </div>
@@ -78,7 +82,7 @@ function JobPage(){
             <div className="font-semibold text-purple-600">Salary</div>
             <div>{job.jobId.salary}</div>
             <div className="font-semibold text-purple-600">Job Location</div>
-            <div>{job.jobId.location}</div></div>:<div className="w-full h-full flex justify-center items-center font-semibold">Loading......</div>
+            <div>{job.jobId.location}</div></div>:<div className="w-full h-full flex justify-center items-center font-semibold">{loading ? "Loading......" : "No Data Available"}</div>
         }
         </div>
     )

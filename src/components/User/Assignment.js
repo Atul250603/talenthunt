@@ -12,9 +12,12 @@ function Assignment(){
     const navigate=useNavigate();
     const {id,id2}=useParams();
     const [assignendtime,setassignendtime]=useState(null);
+    const [loading, setLoading] = useState(false);
+
     useEffect(()=>{
         async function init(){
             try{
+                setLoading(true);
                 let storage=localStorage.getItem('storage');
                 if(!storage){
                     navigate('/');
@@ -83,6 +86,8 @@ function Assignment(){
                 toast.error(error,{
                     toastId:"assignmenterror"
                 });
+            } finally {
+                setLoading(false);
             }
         }
         init();
@@ -126,7 +131,7 @@ function Assignment(){
     return(
         <div className="w-full h-full heading px-4 py-2 overflow-y-auto">
             {   
-                (assignment)?<div>
+                (!loading && assignment)?<div>
                     {
                         (status===0)?<div className="relative">
                             
@@ -158,7 +163,7 @@ function Assignment(){
                             </div>:<></>}
                         </div></div></div>:<><Questionnaire id={id} id2={id2} assignment={assignment} setstatus={setstatus} sol={sol} setsol={setsol}/></>
                     }
-                </div>:<div className="flex justify-center items-center font-bold">Loading.....</div>
+                </div>:<div className="w-full h-full flex justify-center items-center font-bold">{loading ? "Loading....." : "No Assignment Available"}</div>
             }
         </div>
     )

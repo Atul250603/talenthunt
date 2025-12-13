@@ -4,11 +4,13 @@ import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 function AppliedHackathons(){
     const [appliedHackathons,setappliedHackathons]=useState([]);
+    const [loading, setLoading] = useState(false);
     const navigate=useNavigate();
     const {state}=useLocation();
     useEffect(()=>{
         async function init(){
             try{
+                setLoading(true);
                 let storage=localStorage.getItem('storage');
                 if(!storage){
                     navigate('/');
@@ -50,18 +52,20 @@ function AppliedHackathons(){
             }
             catch(error){
                 toast.error(error);
+            } finally {
+                setLoading(false);
             }
         }
         init();
     },[])
     return(
         <div className="w-full h-full heading px-4">
-            {(appliedHackathons && appliedHackathons.length>0)?appliedHackathons.map((element,idx)=><div className='bg-slate-600 rounded-lg px-4 py-3 my-2 flex justify-between items-center text-white heading hover:cursor-pointer' key={idx} onClick={()=>{navigate(`/user/hackathons/applied/${element.hackathonId._id}`)}}>
+            {(!loading && appliedHackathons && appliedHackathons.length>0)?appliedHackathons.map((element,idx)=><div className='bg-slate-600 rounded-lg px-4 py-3 my-2 flex justify-between items-center text-white heading hover:cursor-pointer' key={idx} onClick={()=>{navigate(`/user/hackathons/applied/${element.hackathonId._id}`)}}>
                 <div className='text-xl font-semibold'>{element.hackathonId.hackathonTitle}</div>
                 <div>
                     <img src={rightArrowIcon} alt="icon"/>
                 </div>
-            </div>):<div className='flex items-center h-full justify-center font-semibold heading'>Loading.....</div>}
+            </div>):<div className='flex items-center h-full justify-center font-semibold heading'>{loading ? "Loading....." : "No Applied Hackathons Found"}</div>}
         </div>
     )
 }

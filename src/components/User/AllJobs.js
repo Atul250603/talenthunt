@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 function AllJobs(){
     const [jobs,setjobs]=useState([]);
+    const [loading, setLoading] = useState(false);
     const [dispIdx,setdispIdx]=useState(0);
     const [showSpinner,setshowSpinner]=useState(false);
     const navigate=useNavigate();
     useEffect(()=>{
         async function init(){
             try{
+                    setLoading(true);
                 let storage=localStorage.getItem('storage');
                 if(!storage){
                     navigate('/');
@@ -53,6 +55,8 @@ function AllJobs(){
             }
             catch(error){
                 toast.error(error);
+            } finally {
+              setLoading(false);
             }
         }
         init();
@@ -101,7 +105,7 @@ function AllJobs(){
     }
     return(
         <div className="w-full h-full">
-        {(jobs && jobs.length>0)?<div className="w-full h-full flex">
+        {(!loading && jobs && jobs.length>0)?<div className="w-full h-full flex">
             <div className="w-[20%] h-full border-r-2 border-r-slate-200 shadow overflow-y-auto text-purple-600">
             {(jobs && jobs.length>0)?jobs.map((element,idx)=>
                 <div className={`flex flex-col items-start px-2 py-2 heading border-b-2 border-b-slate-200 hover:cursor-pointer ${(idx===dispIdx)?"bg-purple-600 text-white shadow-inner shadow-slate-600":"bg-slate-100 text-purple-600"}`} onClick={()=>setdispIdx(idx)} key={idx}>
@@ -141,7 +145,7 @@ function AllJobs(){
                 <div>{jobs[dispIdx].location}</div>
                 
             </div>:<div className="w-full h-full flex items-center justify-center heading font-semibold">No Job Is Live</div>}
-        </div>:<div className="w-full h-full flex items-center justify-center heading font-semibold">Loading...</div>}
+        </div>:<div className="w-full h-full flex items-center justify-center heading font-semibold">{loading ? "Loading..." : "No Job Is Live"}</div>}
         </div>
     )
 }

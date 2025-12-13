@@ -7,9 +7,11 @@ function AllInterviews(){
     const {state}=useLocation();
     const navigate=useNavigate();
     const{id}=useParams();
+    const [loading, setLoading] = useState(false);
     useEffect(()=>{
         async function init(){
             try{
+                setLoading(true);
                 let storage=localStorage.getItem('storage');
                 if(!storage){
                     navigate('/');
@@ -74,6 +76,8 @@ function AllInterviews(){
                 toast.error(error,{
                     toastId:"myassignmnets"
                 });
+            } finally {
+                setLoading(false);
             }
         }
         init();
@@ -81,7 +85,7 @@ function AllInterviews(){
     return(
         <div className="w-full h-full heading px-4 py-2 overflow-y-auto">
             {
-                (interviews && interviews.length>0)?interviews.map((element,idx)=>(element.future)?<div className="rounded-lg px-4 py-3 my-2 flex justify-between items-center text-white heading bg-slate-400 hover:cursor-not-allowed" key={idx}>
+                (!loading && interviews && interviews.length>0)?interviews.map((element,idx)=>(element.future)?<div className="rounded-lg px-4 py-3 my-2 flex justify-between items-center text-white heading bg-slate-400 hover:cursor-not-allowed" key={idx}>
                 <div className='text-xl font-semibold'>
                     {element.interviewname}
                     <span className="text-sm bg-red-600 p-1 ml-2 rounded-full">Room Hasn't Started Yet</span>
@@ -98,7 +102,7 @@ function AllInterviews(){
                     <img src={rightArrowIcon} alt="icon"/>
                 </div>
                
-            </div>):<div className="flex justify-center items-center font-semibold">Loading...</div>
+            </div>):<div className="w-full h-full flex justify-center items-center font-semibold">{loading ? "Loading..." : "No Interviews Available"}</div>
             }
         </div>
     )
